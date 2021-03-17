@@ -125,7 +125,7 @@ void Delete(string name,string ID){
 //Function1 - Add an assignment
 void F1(){
 	//declare 3 string
-	string name,ID,seat,str,data;
+	string name,ID,seat,str,data,parameter = {"ABCDEF"},back;
 	const string AZ = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	//Main loop
 	do{
@@ -141,20 +141,20 @@ void F1(){
 		cout << "Input your desired seat location(e.g.\"10D\"): ";
 		cin >> seat;
 
-		/*
 		//Data validity check for seat
 		try{
-			//Unfinished
-			if(AZ.find(seat.substr(2))==string::npos|AZ.find(seat.substr(0,2))!=string::npos){
+			int buff2 = stoi(seat.substr(0, seat.size()-1));
+			back = seat.substr(seat.size()-1,seat.size());
+			if((buff2<0) && (buff2>14) && false){
 				cout << "Error: Your seat is invalid. Please try again." << endl;
 				goto fail;
 			}
+			//(parameter.find(back) == string::npos)
 		//Catch expection
 		}catch(...){
 			cout << "Error: Your seat is invalid. Please try again." << endl;
 			goto fail;
 		}
-		*/
 
 		/* This validity check need to depend on ID, please check ID format b4 activate
 		//Data validity check for ID
@@ -351,12 +351,46 @@ void F5_1(){
 
 //Function5_2 - Show Class details
 void F5_2(){
+	string Class,buff2;
+    vector<string> AZ = {"A","B","C","D","E","F"};
+    int class1,class2;
+
+	cout << "Input Class: ";
+	cin >> Class;
+    if(Class == "First"){
+        class1 = 1;
+        class2 = 3;
+    }else if(Class == "Business"){
+        class1 = 3;
+        class2 = 8;
+    }else if(Class == "Economy"){
+        class1 = 8;
+        class2 = 14;
+    }
+
+    for(int l= class1;l < class2;l++){
+        for(auto o: AZ){
+            bool occupied = false;
+            cout << l << o << ": ";
+            for(auto buff1 : readfile()){
+                buff2 = to_string(l)+o;
+                if(split(buff1)[2] == buff2){
+                    occupied = true;
+                    cout << split(buff1)[0] << endl;
+                }
+            }
+            if(!occupied){
+            cout << "vacant" << endl;
+            }
+        }
+    }
+    cout << endl;
 	system("pause");
 }
 
 //Function5 - Show details Main Menu
 void F5(){
-	int sub_prog_choice;
+	char sub_prog_choice;
 	do{	//Main Menu
 		cout << "\n\n";
 		cout << "*** Details ***" << endl;
@@ -374,9 +408,9 @@ void F5(){
 		case '2': F5_2(); break;
 		case '3': break;
 		default:
-			//Indicate error
-			cout << "Error: No such function " << sub_prog_choice << endl;
-			continue;
+		//Indicate error
+		cout << "Error: No such function " << sub_prog_choice << endl;
+		continue;
 		}
 	}while (sub_prog_choice != '3');
 	cout << endl << "Exitting." << endl;

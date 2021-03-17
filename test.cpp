@@ -7,6 +7,7 @@
 #include <vector> //list library
 #include <stdio.h> //file rename library
 #include <iomanip> //output format library
+
 #include <typeinfo> //debug library
 
 //Include std 
@@ -65,37 +66,40 @@ void store(string data,string filename){
 
 int main() 
 {   
-    string Class;
+    string Class,buff2;
     vector<string> AZ = {"A","B","C","D","E","F"};
-	int buff2 = 0;
+    int class1,class2;
 
 	cout << "Input Class: ";
 	cin >> Class;
+    if(Class == "First"){
+        class1 = 1;
+        class2 = 3;
+    }else if(Class == "Business"){
+        class1 = 3;
+        class2 = 8;
+    }else if(Class == "Economy"){
+        class1 = 8;
+        class2 = 14;
+    }
 
-    for(int l=1;l < 14;l++){
-        bool occupied = false;
-        for(auto buff1 : readfile()){
-            for(auto o: )
-            buff2 = 
-            if(buff2 == l){
-                occupied = true;
-                cout << 
+    for(int l= class1;l < class2;l++){
+        for(auto o: AZ){
+            bool occupied = false;
+            cout << l << o << ": ";
+            for(auto buff1 : readfile()){
+                buff2 = to_string(l)+o;
+                if(split(buff1)[2] == buff2){
+                    occupied = true;
+                    cout << split(buff1)[0] << endl;
+                }
+            }
+            if(!occupied){
+            cout << "vacant" << endl;
             }
         }
-        if(!occupied){
-            cout << “vacant” 
-        }
     }
-	for(auto buff1 : readfile()){
-        buff2 = stoi(split(buff1)[2].substr(0, split(buff1)[2].size()-1));
-        if(buff2 < 3){
-            
-        }else if(buff2 < 8){
-            cout << "Business";
-        }else{
-            cout << "Economy";
-        }
-	}
+    cout << endl;
 	system("pause");
 }
 
