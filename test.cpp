@@ -6,7 +6,7 @@
 #include <string> //string library
 #include <vector> //list library
 #include <stdio.h> //file rename library
-#include <cstring> //split string library
+#include <iomanip> //output format library
 #include <typeinfo> //debug library
 
 //Include std 
@@ -65,22 +65,37 @@ void store(string data,string filename){
 
 int main() 
 {   
-    //declare 3 string
-	string input;
-    vector<string> data = {};
+    string Class;
+    vector<string> AZ = {"A","B","C","D","E","F"};
+	int buff2 = 0;
 
-    //Clear input cache
-    input="\n";
-    getline(cin,input);
-    
-    //Input name,ID and seat
-    cout << "Please input in \"Name/PassportID/Seat\" or \"0\" to end input ";
-    while(input!= "0"){
-        getline(cin,input);
-        data.push_back(input);
+	cout << "Input Class: ";
+	cin >> Class;
+
+    for(int l=1;l < 14;l++){
+        bool occupied = false;
+        for(auto buff1 : readfile()){
+            for(auto o: )
+            buff2 = 
+            if(buff2 == l){
+                occupied = true;
+                cout << 
+            }
+        }
+        if(!occupied){
+            cout << “vacant” 
+        }
     }
-
-    
+	for(auto buff1 : readfile()){
+        buff2 = stoi(split(buff1)[2].substr(0, split(buff1)[2].size()-1));
+        if(buff2 < 3){
+            
+        }else if(buff2 < 8){
+            cout << "Business";
+        }else{
+            cout << "Economy";
+        }
+	}
 	system("pause");
 }
 

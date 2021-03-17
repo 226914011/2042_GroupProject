@@ -5,6 +5,9 @@
         "system_error": "cpp",
         "xlocale": "cpp",
         "xstring": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "vector": "cpp",
+        "iostream": "cpp",
+        "iomanip": "cpp"
     }
 }

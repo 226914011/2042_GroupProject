@@ -6,6 +6,7 @@
 #include <string> //string library
 #include <vector> //list library
 #include <stdio.h> //file rename library
+#include <iomanip> //output format library
 
 //Include std 
 using namespace std;
@@ -179,19 +180,23 @@ void F1(){
 
 		//Inport data from data file
 		for(auto str : readfile()){
+			vector<string> buffer2 = split(str);
+        	// buffer2[0] = Name , buffer2[1] = ID , buffer2[2] = seat
+
 			//Check if user's name have booked
-			if(str.find(name)!=string::npos){
-				cout << "Error: You have booked for name: "<< name <<". Please try again." << endl;
+			if(buffer2[0]== name){
+				cout << "Error: You have booked for name: "<< name <<"." << endl;
+				cout << "Error: Please try again." << endl;
 				goto fail;
 
 			//Check if user's ID have booked
-			}else if(str.find(ID)!=string::npos){
-				cout << "Error: You have booked for ID:"<< ID <<". Please try again." << endl;
-				cout << str.find(ID);
+			}else if(buffer2[1] == ID){
+				cout << "Error: You have booked for ID:"<< ID <<"." << endl;
+				cout << "Error: Please try again." << endl;
 				goto fail;
 
 			//Check if sear have booked
-			}else if(str.find(seat)!=string::npos){
+			}else if(buffer2[2] == seat){
 				cout << "Error: The seat: "<< seat<<" has been obtained." << endl;
 				cout << "Error: Please choose another one." << endl;
 				goto fail;
@@ -229,29 +234,152 @@ void F2(){
 }
 
 //Function3 - Add assignments in batch
-void F3(){
+void F3(){   
+    //declare 3 string
+	string input;
+    vector<string> data = {};
+    vector<string> suces = {};
+    vector<string> fail = {};
 
+    //Clear input cache
+    input="\n";
+    getline(cin,input);
+    
+    //Input name,ID and seat
+    cout << "Please input in \"Name/PassportID/Seat\" or \"0\" to end input:" << endl;
+    getline(cin,input);
+    while(input!= "0"){
+        data.push_back(input);
+        getline(cin,input);
+    }
+    cout << endl;
+    //
+    for(auto buffer : data){
+        bool sucess = true;
+        vector<string> buffer1 = split(buffer);
+        for(auto str : readfile()){
+			vector<string> buffer2 = split(str);
+            //Check if 
+			if(buffer1[0]== buffer2[0] || buffer1[1]== buffer2[1] || buffer1[2]== buffer2[2]){
+                sucess = false;
+            }
+        }
+        if(sucess){
+            suces.push_back(buffer);
+            store(buffer,"Client_data.txt");
+        }else{
+            fail.push_back(buffer);
+        }
+
+    }
+    if(!suces.empty()){
+        cout << "Successful requests:" << endl;
+        for(auto buffer3 : suces){
+            cout << buffer3 << endl;
+        }
+        cout << endl;
+    }
+    if(!fail.empty()){
+        cout << "Unsuccessful requests:" << endl;
+        for(auto buffer4 : fail){
+            cout << buffer4 << endl;
+        }
+        cout << endl;
+    }
 	system("pause");
 }
 
 //Function4 - Show latest seating plan
 void F4(){
+	vector<string> AZ = {"A","B","C","D","E","F"};
+    string buff;
+    cout << setw(5) << " ";
+    for(auto header : AZ){
+        cout << setw(5) << header;
+    }cout << endl;
+    for(int numb = 1;numb < 14;numb++){
+        cout << setw(5) << numb;
+        for(int count = 0; count < 6; count++){
+            for(auto string1 : readfile()){
+                if(to_string(numb)+AZ[count]==split(string1)[2]){
+                    cout << setw(5) << "X";
+                    goto X;
+                }
+            }
+            cout << setw(5) << "*";
+            X:;
+        }
+        cout << endl;
+    }
 	system("pause");
 }
 
-//Function5 - Show details
+//Function5_1 - Show Passenger details
+void F5_1(){   
+    string ID;
+	int buff2 = 0;
+
+	cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
+	cin >> ID;
+
+	for(auto buff1 : readfile()){
+		if(ID == split(buff1)[1]){
+			cout << "Name: " << split(buff1)[0] << endl;
+			cout << "ID: " << split(buff1)[1] << endl;
+			
+			cout << "Ticket class: ";
+			buff2 = stoi(split(buff1)[2].substr(0, split(buff1)[2].size()-1));
+			if(buff2 < 3){
+				cout << "First";
+			}else if(buff2 < 8){
+				cout << "Business";
+			}else{
+				cout << "Economy";
+			}
+			cout << endl;
+
+			cout << "Seat: " << split(buff1)[2] << endl;
+            goto end_loop;
+        }
+	}
+    cout << "Error: Invalid ID";
+    end_loop:;
+	cout << endl;
+
+	system("pause");
+}
+
+//Function5_2 - Show Class details
+void F5_2(){
+	system("pause");
+}
+
+//Function5 - Show details Main Menu
 void F5(){
 	int sub_prog_choice;
-	cout << "\n\n";
-	cout << "*** Details ***" << endl;
-	cout << "[1] Passenger" << endl;
-	cout << "[2] Class" << endl;
-	cout << "[3] Back" << endl;
-	cout << "*****************" << endl;
-	cout << "Option (1-3): ";
-	cin >> sub_prog_choice;
-	cout << "\n\n";
-	system("pause");
+	do{	//Main Menu
+		cout << "\n\n";
+		cout << "*** Details ***" << endl;
+		cout << "[1] Passenger" << endl;
+		cout << "[2] Class" << endl;
+		cout << "[3] Back" << endl;
+		cout << "*****************" << endl;
+		cout << "Option (1-3): ";
+		cin >> sub_prog_choice;
+		cout << "\n\n";
+
+		//Choose Function
+		switch (sub_prog_choice) {
+		case '1': F5_1(); break;
+		case '2': F5_2(); break;
+		case '3': break;
+		default:
+			//Indicate error
+			cout << "Error: No such function " << sub_prog_choice << endl;
+			continue;
+		}
+	}while (sub_prog_choice != '3');
+	cout << endl << "Exitting." << endl;
 }
 
 //Main Function
