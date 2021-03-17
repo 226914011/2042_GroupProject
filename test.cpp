@@ -47,86 +47,41 @@ vector<string> split(string s){
 void store(string data,string filename){
 	char buffer[256];
 	fstream filetoworkwith;
+    
 	filetoworkwith.open(filename, fstream::in | fstream::out | fstream::app);
 	if(filetoworkwith.getline(buffer, 100)){
-		cout << "Not empty." << endl;
         filetoworkwith << "\n";
-	}else{
-        cout << "Empty." << endl;
-        filetoworkwith << "foobar";
-        filetoworkwith.flush();
     }
-    cout << (!filetoworkwith) << endl;
+	
+    //Fix for write error if file is empty
+    if(!filetoworkwith){
+        filetoworkwith.close();
+    filetoworkwith.open(filename,fstream::out | fstream::app);
+    }
 	filetoworkwith << data;
 	filetoworkwith.close();
 	filetoworkwith.clear();
 }
 
-//Function - Delete data
-void Delete(string name,string ID){
-    //Declare variables
-    string confirm;
-    bool detected = false , erased = false;
-    vector<string> data = {};
-    vector<string> buffer2 = {};
-
-	for (auto buffer : readfile()) {
-        vector<string> buffer2 = split(buffer);
-        // buffer2[0] = Name , buffer2[1] = ID , buffer2[2] = seat
-        if((buffer2[0]== name) && (buffer2[1] == ID)){
-            while(true){
-                cout << endl;
-                cout << "Record found. Are you sure you want to delete it?" << endl;
-                cout << "Input \"Confirm\" to confirm or \"c\" to cancel." << endl;
-                cin >> confirm;
-                if(confirm=="Confirm"){
-                    cout << "Data Deleted!"<< endl;
-                    detected = true;
-                    erased = true;
-                    goto erase;
-                }else if(confirm=="c"){
-                    cout << "Delete action has been canceled!"<< endl;
-                    detected = true;
-                }else{
-                    cout << "Error : Invalid input. Try again."<< endl;
-                }
-            }
-        }
-        data.push_back(buffer);
-        erase:;
-	}
-    if(!detected || !erased){
-        cout << "No match detected!"<< endl;
-    }
-    if(erased){
-        for (auto str : data){
-            store(str,"temp.txt");
-        }
-        /*
-        remove( "Client_data.txt" );
-        rename("temp.txt", "Client_data.txt");
-        */
-        cout << "Data file has been updated!" << endl;
-    }
-
-}
-
-
 int main() 
-{   //declare 3 string
-	string name,ID;
+{   
+    //declare 3 string
+	string input;
+    vector<string> data = {};
 
     //Clear input cache
-    name="\n";
-    getline(cin,name);
+    input="\n";
+    getline(cin,input);
     
     //Input name,ID and seat
-    cout << "Input your name(e.g.\"Chan Tai Man\"): ";
-    getline(cin,name);
-    cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
-    cin >> ID;
-    Delete(name,ID);
-    system("pause");
+    cout << "Please input in \"Name/PassportID/Seat\" or \"0\" to end input ";
+    while(input!= "0"){
+        getline(cin,input);
+        data.push_back(input);
+    }
+
+    
+	system("pause");
 }
 
 

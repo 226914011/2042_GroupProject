@@ -16,14 +16,22 @@ using namespace std;
 void store(string data,string filename){
 	char buffer[256];
 	fstream filetoworkwith;
-	filetoworkwith.open(filename, fstream::in | fstream::out | fstream::app );
+    
+	filetoworkwith.open(filename, fstream::in | fstream::out | fstream::app);
 	if(filetoworkwith.getline(buffer, 100)){
-		filetoworkwith << "\n";
-	}
+        filetoworkwith << "\n";
+    }
+	
+    //Fix for write error if file is empty
+    if(!filetoworkwith){
+        filetoworkwith.close();
+    filetoworkwith.open(filename,fstream::out | fstream::app);
+    }
 	filetoworkwith << data;
 	filetoworkwith.close();
 	filetoworkwith.clear();
 }
+
 
 //Function - Read file data
 //Data format return in vector
@@ -65,6 +73,53 @@ vector<string> split(string s){
 vector<string> buffer = split(data);
 */
 
+//Function - Delete data
+void Delete(string name,string ID){
+    //Declare variables
+    string confirm;
+    bool detected = false , erased = false;
+    vector<string> data = {};
+    vector<string> buffer2 = {};
+
+	for (auto buffer : readfile()) {
+        vector<string> buffer2 = split(buffer);
+        // buffer2[0] = Name , buffer2[1] = ID , buffer2[2] = seat
+        if((buffer2[0]== name) && (buffer2[1] == ID)){
+            while(true){
+                cout << endl;
+                cout << "Record found. Are you sure you want to delete it?" << endl;
+                cout << "Input \"Confirm\" to confirm or \"c\" to cancel." << endl;
+                cin >> confirm;
+				cout << endl;
+                if(confirm=="Confirm"){
+                    cout << "Data Deleted!"<< endl;
+                    detected = true;
+                    erased = true;
+                    goto erase;
+                }else if(confirm=="c"){
+                    cout << "Delete action has been canceled!"<< endl;
+                    detected = true;
+                }else{
+                    cout << "Error : Invalid input. Try again."<< endl;
+                }
+            }
+        }
+        data.push_back(buffer);
+        erase:;
+	}
+    if(!detected || !erased){
+        cout << "No match detected!"<< endl;
+    }
+    if(erased){
+        for (auto str : data){
+            store(str,"temp.txt");
+        }
+        remove( "Client_data.txt" );
+        rename("temp.txt", "Client_data.txt");
+        cout << "Data file has been updated!" << endl;
+    }
+
+}
 
 //Function1 - Add an assignment
 void F1(){
@@ -169,12 +224,13 @@ void F2(){
     cout << name;
     cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
     cin >> ID;
-    //Delete(name,ID);
+    Delete(name,ID);
 	system("pause");
 }
 
 //Function3 - Add assignments in batch
 void F3(){
+
 	system("pause");
 }
 
