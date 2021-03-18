@@ -15,17 +15,24 @@ using namespace std;
 
 //Function - Store data
 void store(string data,string filename){
+	//declare variables
 	char buffer[256];
 	bool empty = true;
+
+	//Create ifstream for read data in file
 	ifstream infile;
+	//Create ofstream for write data to file
     ofstream outfile;
     
+	//Check if file is empty or not
 	infile.open(filename, fstream::in);
 	if(infile.getline(buffer, 100)){
 		empty = false;
 	}
 	infile.close();
 
+	//If not empty, create a newline and write data
+	//If empty, only write data
     outfile.open(filename,fstream::out | fstream::app);
 	if(!empty){
         outfile << "\n";
@@ -39,14 +46,21 @@ void store(string data,string filename){
 //Function - Read file data
 //Data format return in vector
 vector<string> readfile(){
+	//declare variables
 	string filename = "Client_data.txt";
 	string buffer;
 	vector<string> data = {};
-	fstream filetoworkwith;
-	filetoworkwith.open(filename, fstream::in );
-	while (getline(filetoworkwith,buffer)) {
+
+	//Create ifstream for read data in file
+	ifstream infile;
+
+	//Get data in each line and add to vector
+	infile.open(filename, ifstream::in);
+	while (getline(infile,buffer)) {
 		data.push_back(buffer);
 	}
+
+	//Returning data in vector
 	return data;
 }
 //Please use following commands to get string in each line
@@ -59,16 +73,21 @@ for(auto str : readfile()){
 //Function - Split string by delimiter
 //Data format return in vector
 vector<string> split(string s){
+	//declare variables
     string delimiter = "/";
     vector<string> data;
     size_t pos = 0;
     string buffer;
+
+	//Split	words by using delimiter and add to vector
     while ((pos = s.find(delimiter)) != std::string::npos) {
         buffer = s.substr(0, pos);
         data.push_back(buffer);
         s.erase(0, pos + delimiter.length());
     }
     data.push_back(s);
+
+	//Returning data in vector
     return data;
 }
 //Please use following commands to get strings in each line
@@ -84,10 +103,15 @@ void Delete(string name,string ID){
     vector<string> data = {};
     vector<string> buffer2 = {};
 
+	//Get data from file
 	for (auto buffer : readfile()) {
         vector<string> buffer2 = split(buffer);
         // buffer2[0] = Name , buffer2[1] = ID , buffer2[2] = seat
-        if((buffer2[0]== name) && (buffer2[1] == ID)){
+        
+		//Check if name and ID both match record in Client_data.txt
+		if((buffer2[0]== name) && (buffer2[1] == ID)){
+
+			//Action for record found
             while(true){
                 cout << endl;
                 cout << "Record found. Are you sure you want to delete it?" << endl;
@@ -108,11 +132,16 @@ void Delete(string name,string ID){
             }
         }
         data.push_back(buffer);
+
+		//Jump out of the while loop if user delete data
         erase:;
 	}
+	//Indicate data not match
     if(!detected || !erased){
         cout << "No match detected!"<< endl;
     }
+
+	//If data match and deleted, overwrite Client_data.txt with new data
     if(erased){
         for (auto str : data){
             store(str,"temp.txt");
@@ -121,12 +150,11 @@ void Delete(string name,string ID){
         rename("temp.txt", "Client_data.txt");
         cout << "Data file has been updated!" << endl;
     }
-
 }
 
 //Function1 - Add an assignment
 void F1(){
-	//declare 3 string
+	//declare variables
 	string name,ID,seat,str,data,parameter = {"ABCDEF"},back;
 	const string AZ = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	//Main loop
@@ -150,14 +178,15 @@ void F1(){
 				cout << "Error: Your seat is invalid. Please try again." << endl;
 				goto fail;
 			}
-			//(parameter.find(back) == string::npos)
 		//Catch expection
 		}catch(...){
 			cout << "Error: Your seat is invalid. Please try again." << endl;
 			goto fail;
 		}
 
-		/* This validity check need to depend on ID, please check ID format b4 activate
+		/* 
+		//Unactivate
+		//This validity check need to depend on ID, please check ID format b4 activate
 		//Data validity check for ID
 		try{
 			//Check if first two letter is "HK" or not
@@ -167,6 +196,7 @@ void F1(){
 				cout << "Error: Your ID is invalid. Please try again." << endl;
 				goto fail;
 			}
+
 		//Catch expection if ID < length 11
 		}catch(...){
 			cout << "Error: Your ID is invalid. Please try again." << endl;
@@ -182,7 +212,7 @@ void F1(){
 		//Inport data from data file
 		for(auto str : readfile()){
 			vector<string> buffer2 = split(str);
-        	// buffer2[0] = Name , buffer2[1] = ID , buffer2[2] = seat
+        	// buffer2[0] = Name , buffer2[1] = ID , buffer2[2] = Seat
 
 			//Check if user's name have booked
 			if(buffer2[0]== name){
@@ -203,6 +233,8 @@ void F1(){
 				goto fail;
 			}
 		}
+
+		//Bypass the for loop if there is not data file to prevent error
 		file_not_exist:;
 
 		//Store data and indicate book success
@@ -211,32 +243,35 @@ void F1(){
 		system("pause");
 		break;
 
+		//Bypass Store function if found data match in data file
 		fail:;
 	}while(true);
 }
 
 //Function2 - Delete an assignment
 void F2(){
-	//declare 3 string
+	//declare variables
 	string name,ID;
 
     //Clear input cache
     name="\n";
     getline(cin,name);
     
-    //Input name,ID and seat
+    //Input name,ID
     cout << "Input your name(e.g.\"Chan Tai Man\"): ";
     getline(cin,name);
     cout << name;
     cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
     cin >> ID;
+
+	//Delete data if match
     Delete(name,ID);
 	system("pause");
 }
 
 //Function3 - Add assignments in batch
 void F3(){   
-    //declare 3 string
+    //declare variables
 	string input;
     vector<string> data = {};
     vector<string> suces = {};
@@ -246,7 +281,7 @@ void F3(){
     input="\n";
     getline(cin,input);
     
-    //Input name,ID and seat
+    //Input name, ID and seat in the specified format
     cout << "Please input in \"Name/PassportID/Seat\" or \"0\" to end input:" << endl;
     getline(cin,input);
     while(input!= "0"){
@@ -255,17 +290,30 @@ void F3(){
     }
     cout << endl;
 
-	//
+	//Store data for data in vector
     for(auto buffer : data){
+		//declare variables
         bool sucess = true;
         vector<string> buffer1 = split(buffer);
+
+		//Check if any data exist in data file
+		if(readfile().size()==0){
+			goto file_not_exist;
+		}
+
+		//Get data to check
         for(auto str : readfile()){
 			vector<string> buffer2 = split(str);
-            //Check if 
+
+            //Check if found data match in data file
 			if(buffer1[0]== buffer2[0] || buffer1[1]== buffer2[1] || buffer1[2]== buffer2[2]){
                 sucess = false;
             }
         }
+		//Bypass the for loop if there is not data file to prevent error
+		file_not_exist:;
+
+		//Store success and fail cases
         if(sucess){
             suces.push_back(buffer);
             store(buffer,"Client_data.txt");
@@ -274,6 +322,8 @@ void F3(){
         }
 
     }
+
+	//Display success case list
     if(!suces.empty()){
         cout << "Successful requests:" << endl;
         for(auto buffer3 : suces){
@@ -281,6 +331,8 @@ void F3(){
         }
         cout << endl;
     }
+
+	//Display fail case list
     if(!fail.empty()){
         cout << "Unsuccessful requests:" << endl;
         for(auto buffer4 : fail){
@@ -288,27 +340,37 @@ void F3(){
         }
         cout << endl;
     }
+
 	system("pause");
 }
 
 //Function4 - Show latest seating plan
 void F4(){
+	//declare variables
 	vector<string> AZ = {"A","B","C","D","E","F"};
     string buff;
+
+	//Display the first line
     cout << setw(5) << " ";
     for(auto header : AZ){
         cout << setw(5) << header;
     }cout << endl;
+
+	//Display the seating plan by loop
     for(int numb = 1;numb < 14;numb++){
         cout << setw(5) << numb;
         for(int count = 0; count < 6; count++){
             for(auto string1 : readfile()){
+				//Check user's seat match current seat or not
                 if(to_string(numb)+AZ[count]==split(string1)[2]){
                     cout << setw(5) << "X";
                     goto X;
                 }
             }
+			//Default output for non occupied seat
             cout << setw(5) << "*";
+
+
             X:;
         }
         cout << endl;
@@ -317,14 +379,19 @@ void F4(){
 }
 
 //Function5_1 - Show Passenger details
-void F5_1(){   
+void F5_1(){
+	//declare variables
     string ID;
 	int buff2 = 0;
 
+	//Input ID
 	cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
 	cin >> ID;
 
+	//Get data to check
 	for(auto buff1 : readfile()){
+
+		//Display match data
 		if(ID == split(buff1)[1]){
 			cout << "Name: " << split(buff1)[0] << endl;
 			cout << "ID: " << split(buff1)[1] << endl;
@@ -339,12 +406,14 @@ void F5_1(){
 				cout << "Economy";
 			}
 			cout << endl;
-
 			cout << "Seat: " << split(buff1)[2] << endl;
-            goto end_loop;
+			goto end_loop;
         }
 	}
-    cout << "Error: Invalid ID";
+	//Indicate no matchs found
+    cout << "Error: No matchs found!";
+
+	//Jump out of the for loop if matchs
     end_loop:;
 	cout << endl;
 
@@ -353,34 +422,48 @@ void F5_1(){
 
 //Function5_2 - Show Class details
 void F5_2(){
+	//declare variables
 	string Class,buff2;
     vector<string> AZ = {"A","B","C","D","E","F"};
     int class1,class2;
 
+	//Input class
 	cout << "Input Class: ";
 	cin >> Class;
-    if(Class == "First"){
+
+	//Check which class match and set parameter
+    if(Class == "First"||Class == "first"){
         class1 = 1;
         class2 = 3;
-    }else if(Class == "Business"){
+    }else if(Class == "Business"||Class == "business"){
         class1 = 3;
         class2 = 8;
-    }else if(Class == "Economy"){
+    }else if(Class == "Economy"||Class == "economy"){
         class1 = 8;
         class2 = 14;
-    }
+    }else{
+		cout << "Error: Invalid Class" << endl;
+	}
 
+	//Display Class details
     for(int l= class1;l < class2;l++){
         for(auto o: AZ){
+			//declare variables
             bool occupied = false;
             cout << l << o << ": ";
+
+			//get data
             for(auto buff1 : readfile()){
                 buff2 = to_string(l)+o;
+
+				//Check if seat is occupied or not
                 if(split(buff1)[2] == buff2){
                     occupied = true;
+					//Display name if occupied
                     cout << split(buff1)[0] << endl;
                 }
             }
+			//Display vacant if not occupied
             if(!occupied){
             cout << "vacant" << endl;
             }
@@ -451,7 +534,8 @@ int main()
 			cout << "Error: No such function " << prog_choice << endl;
 			continue;
 		}
-	 //Exit parameter
+
+	//Exit parameter
 	}while (prog_choice != '6');
 	
 	//Exit programe
