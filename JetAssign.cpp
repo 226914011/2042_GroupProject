@@ -16,21 +16,23 @@ using namespace std;
 //Function - Store data
 void store(string data,string filename){
 	char buffer[256];
-	fstream filetoworkwith;
+	bool empty = true;
+	ifstream infile;
+    ofstream outfile;
     
-	filetoworkwith.open(filename, fstream::in | fstream::out | fstream::app);
-	if(filetoworkwith.getline(buffer, 100)){
-        filetoworkwith << "\n";
+	infile.open(filename, fstream::in);
+	if(infile.getline(buffer, 100)){
+		empty = false;
+	}
+	infile.close();
+
+    outfile.open(filename,fstream::out | fstream::app);
+	if(!empty){
+        outfile << "\n";
     }
-	
-    //Fix for write error if file is empty
-    if(!filetoworkwith){
-        filetoworkwith.close();
-    filetoworkwith.open(filename,fstream::out | fstream::app);
-    }
-	filetoworkwith << data;
-	filetoworkwith.close();
-	filetoworkwith.clear();
+	outfile << data;
+	outfile.close();
+	outfile.clear();
 }
 
 
@@ -144,8 +146,7 @@ void F1(){
 		//Data validity check for seat
 		try{
 			int buff2 = stoi(seat.substr(0, seat.size()-1));
-			back = seat.substr(seat.size()-1,seat.size());
-			if((buff2<0) && (buff2>14) && false){
+			if((buff2<0) || (buff2>14) || parameter.find(seat.substr(seat.size()-1,seat.size())) == string::npos){
 				cout << "Error: Your seat is invalid. Please try again." << endl;
 				goto fail;
 			}
@@ -253,7 +254,8 @@ void F3(){
         getline(cin,input);
     }
     cout << endl;
-    //
+
+	//
     for(auto buffer : data){
         bool sucess = true;
         vector<string> buffer1 = split(buffer);

@@ -47,21 +47,31 @@ vector<string> split(string s){
 //Function - Store data
 void store(string data,string filename){
 	char buffer[256];
-	fstream filetoworkwith;
+	ifstream infile;
+    ofstream outfile;
     
-	filetoworkwith.open(filename, fstream::in | fstream::out | fstream::app);
-	if(filetoworkwith.getline(buffer, 100)){
-        filetoworkwith << "\n";
+	infile.open(filename, fstream::in);
+	infile.getline(buffer, 100);
+	infile.close();
+
+    outfile.open(filename,fstream::out | fstream::app);
+	if(buffer){
+		cout << 1;
+        outfile << "\n";
     }
-	
-    //Fix for write error if file is empty
-    if(!filetoworkwith){
-        filetoworkwith.close();
-    filetoworkwith.open(filename,fstream::out | fstream::app);
+	outfile << data;
+	outfile.close();
+	outfile.clear();
+    /*
+    if(infile){
+        infile.close();
+        infile.clear();
     }
-	filetoworkwith << data;
-	filetoworkwith.close();
-	filetoworkwith.clear();
+    if(outfile){
+        outfile.close();
+	    outfile.clear();
+    }
+    */
 }
 
 int main() 
