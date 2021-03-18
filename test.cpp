@@ -1,4 +1,4 @@
-//Group Project - Airplane Seating Assignment System Solution
+//Group Project - Test File
 
 //Include library
 #include <iostream> //console input&output library
