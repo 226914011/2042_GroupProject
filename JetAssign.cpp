@@ -236,7 +236,7 @@ void F1(){
 
 		//Bypass the for loop if there is not data file to prevent error
 		file_not_exist:;
-
+		
 		//Store data and indicate book success
 		store(name + "/" + ID + "/" + seat,"Client_data.txt");
 		cout << endl <<"You have booked successfully for seat "<< seat << "." << endl;
@@ -270,7 +270,7 @@ void F2(){
 }
 
 //Function3 - Add assignments in batch
-void F3(){   
+void F3(){
     //declare variables
 	string input;
     vector<string> data = {};
