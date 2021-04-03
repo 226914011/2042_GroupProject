@@ -8,8 +8,11 @@
 #include <stdio.h> //file rename library
 #include <iomanip> //output format library
 
-//Include std 
+//Include std
 using namespace std;
+
+class unwan
+
 
 //Solution
 
@@ -59,7 +62,6 @@ vector<string> readfile(){
 	while (getline(infile,buffer)) {
 		data.push_back(buffer);
 	}
-
 	//Returning data in vector
 	return data;
 }
@@ -505,7 +507,6 @@ void F5(){
 int main() 
 {	//Declare variable
     char prog_choice;
-
 	do{	//Main Menu
 		cout << "\n\n";
 		cout << "Welcome to HKCC Airplane Seating Assignment System!" << endl;

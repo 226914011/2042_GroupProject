@@ -81,101 +81,64 @@ void store(string data,string filename){
 	outfile.clear();
 }
 
-int main() 
-{   
 
-}
-//Function3 - Add assignments in batch
-void F3(){   
-    //declare variables
-	string input;
-    vector<string> data = {};
-    vector<string> suces = {};
-    vector<string> fail = {};
+//Rmb use class as mentioned in guildline!!!!!!!!!!!!!!!!!!!!
+class cus {       	// The cus
+  public:			// Access specifier
+    string name;	// Attribute (string variable)
+    string id;  	// Attribute (string variable)
+    string sit;  	// Attribute (string variable)
+};
 
-    //Clear input cache
-    input="\n";
-    getline(cin,input);
-    
-    //Input name, ID and seat in the specified format
-    cout << "Please input in \"Name/PassportID/Seat\" or \"0\" to end input:" << endl;
-    getline(cin,input);
-    while(input!= "0"){
-        data.push_back(input);
-        getline(cin,input);
-    }
-    cout << endl;
-
-	//Store data for data in vector
-    for(auto buffer : data){
-		//declare variables
-        bool sucess = true;
-        vector<string> buffer1 = split(buffer);
-
-		//Check if any data exist in data file
-		if(readfile().size()==0){
-			goto file_not_exist;
-		}
-
-		//Get data to check
-        for(auto str : readfile()){
-			vector<string> buffer2 = split(str);
-
-            //Check if found data match in data file
-			if(buffer1[0]== buffer2[0] || buffer1[1]== buffer2[1] || buffer1[2]== buffer2[2]){
-                sucess = false;
+int main() {
+    /*
+    //Write data
+    string data_buffer;
+    string data[][3] = {{"Chan Tai Man","HK12345678A","10D"},{"Pan Peter","US2356AAD11","2E"},{"Chu Mimi","ER273","1A"}}; 
+    int rows = (sizeof(data)/sizeof(data[0]));
+    int cols = (sizeof(data[0])/sizeof(string));
+    for(int i=0;i<rows;i++){
+        data_buffer = "";
+        for(int j=0;j<cols;j++){
+            data_buffer.append(data[i][j]);
+            if(j < 2){
+                data_buffer.append("/");
             }
         }
-		//Bypass the for loop if there is not data file to prevent error
-		file_not_exist:;
+        cout << data_buffer << endl;
+    }*/
+    
+    string data_buffer;
+    
+    cus cus_list[][1];  // Create an object of cus
+    
 
-		//Store success and fail cases
-        if(sucess){
-            suces.push_back(buffer);
-            store(buffer,"Client_data.txt");
-        }else{
-            fail.push_back(buffer);
+    // Access attributes and set values
+    cus_list[0][0].name = "Chan Tai Man";
+    cus_list[0][0].id = "HK12345678A";
+    cus_list[0][0].sit = "10D";
+  
+    cus_list[1][0].name = "Pan Peter";
+    cus_list[1][0].id = "US2356AAD11";
+    cus_list[1][0].sit = "2E";
+
+    // Print values
+    int rows = (sizeof(cus_list)/sizeof(cus_list[0]));
+    int cols = (sizeof(cus_list[0])/sizeof(string));
+    for(int i=0;i<rows;i++){
+        data_buffer = "";
+        for(int j=0;j<cols;j++){
+            data_buffer.append(cus_list[i][j]);
+            if(j < 2){
+                data_buffer.append("/");
+            }
         }
-
+        cout << data_buffer;
     }
-
-	//Display success case list
-    if(!suces.empty()){
-        cout << "Successful requests:" << endl;
-        for(auto buffer3 : suces){
-            cout << buffer3 << endl;
-        }
-        cout << endl;
-    }
-
-	//Display fail case list
-    if(!fail.empty()){
-        cout << "Unsuccessful requests:" << endl;
-        for(auto buffer4 : fail){
-            cout << buffer4 << endl;
-        }
-        cout << endl;
-    }
-
-	system("pause");
+  return 0;
 }
 
 
 
-/*
-//Write data
-string data_buffer;
-string data[][3] = {{"Chan Tai Man","HK12345678A","10D"},{"Pan Peter","US2356AAD11","2E"},{"Chu Mimi","ER273","1A"}}; 
-int rows = (sizeof(data)/sizeof(data[0]));
-int cols = (sizeof(data[0])/sizeof(string));
-for(int i=0;i<rows;i++){
-    data_buffer = "";
-    for(int j=0;j<cols;j++){
-        data_buffer.append(data[i][j]);
-        if(j < 2){
-            data_buffer.append("/"");
-        }
-    }
-    store(data_buffer);
-}
-*/
+
+
