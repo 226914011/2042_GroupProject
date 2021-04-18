@@ -11,9 +11,6 @@
 //Include std
 using namespace std;
 
-class unwan
-
-
 //Solution
 
 //Function - Store data
@@ -175,8 +172,9 @@ void F1(){
 
 		//Data validity check for seat
 		try{
+			//get the number of the seat
 			int buff2 = stoi(seat.substr(0, seat.size()-1));
-			if((buff2<0) || (buff2>14) || parameter.find(seat.substr(seat.size()-1,seat.size())) == string::npos){
+			if((buff2<1) || (buff2>13) || parameter.find(seat.substr(seat.size()-1,seat.size())) == string::npos){
 				cout << "Error: Your seat is invalid. Please try again." << endl;
 				goto fail;
 			}
@@ -243,6 +241,7 @@ void F1(){
 		store(name + "/" + ID + "/" + seat,"Client_data.txt");
 		cout << endl <<"You have booked successfully for seat "<< seat << "." << endl;
 		system("pause");
+		system("cls");
 		break;
 
 		//Bypass Store function if found data match in data file
@@ -269,6 +268,7 @@ void F2(){
 	//Delete data if match
     Delete(name,ID);
 	system("pause");
+	system("cls");
 }
 
 //Function3 - Add assignments in batch
@@ -344,6 +344,7 @@ void F3(){
     }
 
 	system("pause");
+	system("cls");
 }
 
 //Function4 - Show latest seating plan
@@ -378,6 +379,7 @@ void F4(){
         cout << endl;
     }
 	system("pause");
+	system("cls");
 }
 
 //Function5_1 - Show Passenger details
@@ -420,6 +422,7 @@ void F5_1(){
 	cout << endl;
 
 	system("pause");
+	system("cls");
 }
 
 //Function5_2 - Show Class details
@@ -473,6 +476,7 @@ void F5_2(){
     }
     cout << endl;
 	system("pause");
+	system("cls");
 }
 
 //Function5 - Show details Main Menu
