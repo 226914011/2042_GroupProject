@@ -37,22 +37,6 @@ vector<string> readfile(){
 }
 
 //Function - Split string by delimiter
-//Data format return in vector
-vector<string> split(string s){
-    string delimiter = "/";
-    vector<string> data;
-    size_t pos = 0;
-    string buffer;
-    while ((pos = s.find(delimiter)) != std::string::npos) {
-        buffer = s.substr(0, pos);
-        data.push_back(buffer);
-        s.erase(0, pos + delimiter.length());
-    }
-    data.push_back(s);
-    return data;
-}
-
-//Function - Split string by delimiter
 //Data format return in array
 string* split(string s){
     string delimiter = "/";
