@@ -173,7 +173,7 @@ void F1() {
 		//Input name,ID and seat
 		cout << "Input your name(e.g.\"Chan Tai Man\"): ";
 		getline(cin, name);
-		cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
+		cout << "Input your passport ID(All upper case, e.g.\"HK12345678A\"): ";
 		cin >> ID;
 		cout << "Input your desired seat location(e.g.\"10D\"): ";
 		cin >> seat;
@@ -182,8 +182,12 @@ void F1() {
 		//Data validity check for seat
 		try {
 			int buff2 = stoi(seat.substr(0, seat.size() - 1));
-			if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
-				throw invalid_argument("Error 203: Invalid");
+			if ((buff2 < 0) || (buff2 > 14) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
+				cout << "Error: Your seat is invalid. Please try again." << endl;
+				cout << "The Format of the seat location should be\"RowColumn\" and without space." << endl;
+				cout << "The row should be between 1-13." << endl;
+				cout << "The colum shoulb be between A-F." << endl;
+				goto fail;
 			}
 			//Catch expection
 		}
@@ -207,7 +211,6 @@ void F1() {
 				cout << "Error: Your ID is invalid. Please try again." << endl;
 				goto fail;
 			}
-
 		//Catch expection if ID < length 11
 		}catch(...){
 			cout << "Error: Your ID is invalid. Please try again." << endl;
@@ -255,7 +258,6 @@ void F1() {
 		store(name + "/" + ID + "/" + seat, "Client_data.txt");
 		cout << endl << "You have booked successfully for seat " << seat << "." << endl;
 		system("pause");
-		system("cls");
 		break;
 
 		//Bypass Store function if found data match in data file
@@ -276,23 +278,12 @@ void F2() {
 	cout << "Input your name(e.g.\"Chan Tai Man\"): ";
 	getline(cin, name);
 	cout << name;
-	cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
+	cout << "Input your passport ID(All upper case, e.g.\"HK12345678A\"): ";
 	cin >> ID;
 
 	//Delete data if match
 	Delete(name, ID);
 	system("pause");
-	system("cls");
-}
-//Check Seat
-int CheckSeat(string seat) {
-	string parameter = "ABCDEF";
-	int buff2 = stoi(seat.substr(0, seat.size() - 1));
-		if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
-			return 1;
-		}
-		else
-			return 0;
 }
 
 //Function3 - Add assignments in batch
@@ -322,14 +313,9 @@ void F3() {
 		bool sucess = true;
 		string* buffer1 = split(buffer);
 
-		if (CheckSeat(buffer1[2]) == 0) {
-			sucess = false;
-			goto error;
-		}
-
 		//Check if any data exist in data file
 		if (readfile().size() == 0) {
-			goto error;
+			goto file_not_exist;
 		}
 
 		//Get data to check
@@ -341,9 +327,8 @@ void F3() {
 				sucess = false;
 			}
 		}
-		
 		//Bypass the for loop if there is not data file to prevent error
-		error:;
+	file_not_exist:;
 
 		//Store success and fail cases
 		if (sucess) {
@@ -375,7 +360,6 @@ void F3() {
 	}
 
 	system("pause");
-	system("cls");
 }
 
 //Function4 - Show latest seating plan
@@ -403,12 +387,13 @@ void F4() {
 			}
 			//Default output for non occupied seat
 			cout << setw(5) << "*";
+
+
 		X:;
 		}
 		cout << endl;
 	}
 	system("pause");
-	system("cls");
 }
 
 //Function5_1 - Show Passenger details
@@ -418,7 +403,7 @@ void F5_1() {
 	int buff2 = 0;
 
 	//Input ID
-	cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
+	cout << "Input your passport ID(All upper case, e.g.\"HK12345678A\"): ";
 	cin >> ID;
 
 	//Get data to check
@@ -449,11 +434,10 @@ void F5_1() {
 	cout << "Error: No matchs found!";
 
 	//Jump out of the for loop if matchs
-	end_loop:;
+end_loop:;
 	cout << endl;
 
 	system("pause");
-	system("cls");
 }
 
 //Function5_2 - Show Class details
@@ -464,7 +448,7 @@ void F5_2() {
 	int class1, class2;
 
 	//Input class
-	cout << "You may choose from First, Bussiness or Economy.\nInput Class: ";
+	cout << "Input Class(e.g. \"First\", \"Business\", \"Economy\") : ";
 	cin >> Class;
 
 	//Check which class match and set parameter
@@ -491,7 +475,7 @@ void F5_2() {
 		for (auto o : AZ) {
 			//declare variables
 			bool occupied = false;
-			cout << l << o << ": ";
+			cout << setw(2) << l << o << ": ";
 
 			//get data
 			for (auto buff1 : readfile()) {
@@ -510,7 +494,7 @@ void F5_2() {
 			}
 		}
 	}
-	failed:
+failed:
 	cout << endl;
 	system("pause");
 	system("cls");
@@ -533,15 +517,15 @@ void F5() {
 		//Choose Function
 		switch (sub_prog_choice) {
 		case '1': F5_1(); break;
-		case '2': F5_2(); break; 
+		case '2': F5_2(); break;
 		case '3': break;
 		default:
 			//Indicate error
 			cout << "Error: No such function " << sub_prog_choice << endl;
-			continue; system("cls");
+			continue;
 		}
 	} while (sub_prog_choice != '3');
-	system("cls");
+	cout << endl << "Exitting." << endl;
 }
 
 //Main Function
