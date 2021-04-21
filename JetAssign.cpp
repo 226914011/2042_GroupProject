@@ -71,23 +71,25 @@ for(auto str : readfile()){
 */
 
 //Function - Split string by delimiter
-//Data format return in vector
-vector<string> split(string s){
+//Data format return in array
+string* split(string s){
 	//declare variables
     string delimiter = "/";
-    vector<string> data;
+    string* data = new string[3];
     size_t pos = 0;
     string buffer;
 
-	//Split	words by using delimiter and add to vector
+	//Split	words by using delimiter and add to array
+    int counter = 0;
     while ((pos = s.find(delimiter)) != std::string::npos) {
         buffer = s.substr(0, pos);
-        data.push_back(buffer);
+        data[counter] = buffer;
         s.erase(0, pos + delimiter.length());
+        counter++;
     }
-    data.push_back(s);
+    data[counter] = s;
 
-	//Returning data in vector
+	//Returning data in array
     return data;
 }
 //Please use following commands to get strings in each line
@@ -101,11 +103,12 @@ void Delete(string name,string ID){
     string confirm;
     bool detected = false , erased = false;
     vector<string> data = {};
-    vector<string> buffer2 = {};
+
+	string* buffer2 = new string[3];
 
 	//Get data from file
 	for (auto buffer : readfile()) {
-        vector<string> buffer2 = split(buffer);
+        buffer2 = split(buffer);
         // buffer2[0] = Name , buffer2[1] = ID , buffer2[2] = seat
         
 		//Check if name and ID both match record in Client_data.txt
@@ -218,7 +221,8 @@ void F1(){
 
 		//Inport data from data file
 		for(auto str : readfile()){
-			vector<string> buffer2 = split(str);
+			string* buffer2 = new string[3];
+			buffer2 = split(str);
         	// buffer2[0] = Name , buffer2[1] = ID , buffer2[2] = Seat
 
 			//Check if user's name have booked
@@ -301,7 +305,7 @@ void F3(){
     for(auto buffer : data){
 		//declare variables
         bool sucess = true;
-        vector<string> buffer1 = split(buffer);
+        string* buffer1 = split(buffer);
 
 		//Check if any data exist in data file
 		if(readfile().size()==0){
@@ -310,7 +314,7 @@ void F3(){
 
 		//Get data to check
         for(auto str : readfile()){
-			vector<string> buffer2 = split(str);
+			string* buffer2 = split(str);
 
             //Check if found data match in data file
 			if(buffer1[0]== buffer2[0] || buffer1[1]== buffer2[1] || buffer1[2]== buffer2[2]){
