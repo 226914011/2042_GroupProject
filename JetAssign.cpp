@@ -254,6 +254,7 @@ void F1(){
 		store(name + "/" + ID + "/" + seat,"Client_data.txt");
 		cout << endl <<"You have booked successfully for seat "<< seat << "." << endl;
 		system("pause");
+		system("cls");
 		break;
 
 		//Bypass Store function if found data match in data file
@@ -280,6 +281,7 @@ void F2(){
 	//Delete data if match
     Delete(name,ID);
 	system("pause");
+	system("cls");
 }
 
 //Function3 - Add assignments in batch
@@ -355,6 +357,7 @@ void F3(){
     }
 
 	system("pause");
+	system("cls");
 }
 
 //Function4 - Show latest seating plan
@@ -389,6 +392,7 @@ void F4(){
         cout << endl;
     }
 	system("pause");
+	system("cls");
 }
 
 //Function5_1 - Show Passenger details
@@ -431,6 +435,7 @@ void F5_1(){
 	cout << endl;
 
 	system("pause");
+	system("cls");
 }
 
 //Function5_2 - Show Class details
