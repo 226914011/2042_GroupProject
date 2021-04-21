@@ -97,6 +97,37 @@ string* split(string s) {
 vector<string> buffer = split(data);
 */
 
+//function - check lower letter
+int cll (string ID){
+    const string az="abcdefghijklmnopqrstuvwxyz";
+    for (char temp : ID){
+        if(az.find(temp)!=string::npos){
+            return 1;
+        }else{
+            continue;
+        }
+    }
+    return 0;
+}
+
+int CheckID(string ID){
+    //Data validity check for ID
+    try{
+        //check ID must not have lower letter
+        if (cll(ID)==1){
+            throw invalid_argument("Error 203: Invalid");
+        }
+    }
+    
+    //Catch expection
+    catch(...){
+        cout << "Error: Your ID is invalid. Please try again." << endl;
+        cout << "Error: Your ID must be use upper letter" << endl;
+        return 1;
+    }
+    return 0;
+}
+
 //Function - Delete data
 void Delete(string name, string ID) {
     //Declare variables
@@ -105,6 +136,11 @@ void Delete(string name, string ID) {
     vector<string> data = {};
 
     string* buffer2 = new string[3];
+    
+    if ( cll(ID)==1 ){
+        cout<<"please do not enter the lower letter";
+        return;
+    }
 
     //Get data from file
     for (auto buffer : readfile()) {
@@ -159,18 +195,8 @@ void Delete(string name, string ID) {
 cancelled:;
 }
 
-//function - check lower letter
-int cll (string ID){
-    const string az="abcdefghijklmnopqrstuvwxyz";
-    for (char temp : ID){
-        if(az.find(temp)!=string::npos){
-            return 1;
-        }else{
-            continue;
-        }
-    }
-    return 0;
-}
+
+
 
 //Function1 - Add an assignment
 void F1() {
@@ -190,8 +216,10 @@ void F1() {
         cin >> ID;
         cout << "Input your desired seat location(e.g.\"10D\"): ";
         cin >> seat;
-
-
+        
+        if(CheckID(ID)==1){
+            goto fail;
+        }
         //Data validity check for seat
         try {
            
@@ -209,22 +237,7 @@ void F1() {
             goto fail;
         }
 
-        //Data validity check for ID
-        try{
-            //check ID must not have lower letter
-            if (cll(ID)==1){
-                throw invalid_argument("Error 203: Invalid");
-            }
-            cout<<cll(ID);
-        }
-        
-        //Catch expection
-        catch(...){
-            cout << "Error: Your ID is invalid. Please try again." << endl;
-            cout << "Error: Your ID must be use upper letter" << endl;
-            goto fail;
-        }
-        
+      
 
         //Check if any data exist in data file
         if (readfile().size() == 0) {
@@ -289,7 +302,9 @@ void F2() {
     cout << name;
     cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
     cin >> ID;
-
+    
+   
+    
     //Delete data if match
     Delete(name, ID);
     system("pause");
@@ -303,10 +318,12 @@ void F3() {
     vector<string> data = {};
     vector<string> suces = {};
     vector<string> fail = {};
-
+    
+  
     //Clear input cache
     input = "\n";
     getline(cin, input);
+    reenter1:;
 
     //Input name, ID and seat in the specified format
     cout << "Please input in \"Name/PassportID/Seat\" or \"0\" to end input:" << endl;
@@ -316,7 +333,9 @@ void F3() {
         getline(cin, input);
     }
     cout << endl;
-
+    
+  
+    
     //Store data for data in vector
     for (auto buffer : data) {
         //declare variables
@@ -327,7 +346,11 @@ void F3() {
         if (readfile().size() == 0) {
             goto file_not_exist;
         }
-
+        
+        if(CheckID(buffer1[1])==1){
+            goto reenter1;
+        }
+    
         //Get data to check
         for (auto str : readfile()) {
             string* buffer2 = split(str);
@@ -337,6 +360,8 @@ void F3() {
                 sucess = false;
             }
         }
+        
+      
         //Bypass the for loop if there is not data file to prevent error
     file_not_exist:;
 
@@ -350,6 +375,8 @@ void F3() {
         }
 
     }
+    
+   
 
     //Display success case list
     if (!suces.empty()) {
@@ -371,6 +398,8 @@ void F3() {
 
     system("pause");
     system("cls");
+
+    
 }
 
 //Function4 - Show latest seating plan
@@ -411,11 +440,16 @@ void F5_1() {
     //declare variables
     string ID;
     int buff2 = 0;
-
+    
+    reenter:;
     //Input ID
     cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
     cin >> ID;
-
+    
+    if(CheckID(ID)==1){
+        goto reenter;
+    }
+    
     //Get data to check
     for (auto buff1 : readfile()) {
 
