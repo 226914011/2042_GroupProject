@@ -448,7 +448,7 @@ void F5_2() {
 	int class1, class2;
 
 	//Input class
-	cout << "Input Class: ";
+	cout << "You may choose from First, Bussiness or Economy.\n " << "Input Class: ";
 	cin >> Class;
 
 	//Check which class match and set parameter
