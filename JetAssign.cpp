@@ -8,7 +8,7 @@
 #include <stdio.h> //file rename library
 #include <iomanip> //output format library
 
-//Include std
+//Include std 
 using namespace std;
 
 //Solution
@@ -59,6 +59,7 @@ vector<string> readfile(){
 	while (getline(infile,buffer)) {
 		data.push_back(buffer);
 	}
+
 	//Returning data in vector
 	return data;
 }
@@ -172,9 +173,8 @@ void F1(){
 
 		//Data validity check for seat
 		try{
-			//get the number of the seat
 			int buff2 = stoi(seat.substr(0, seat.size()-1));
-			if((buff2<1) || (buff2>13) || parameter.find(seat.substr(seat.size()-1,seat.size())) == string::npos){
+			if((buff2<0) || (buff2>14) || parameter.find(seat.substr(seat.size()-1,seat.size())) == string::npos){
 				cout << "Error: Your seat is invalid. Please try again." << endl;
 				goto fail;
 			}
@@ -236,12 +236,11 @@ void F1(){
 
 		//Bypass the for loop if there is not data file to prevent error
 		file_not_exist:;
-		
+
 		//Store data and indicate book success
 		store(name + "/" + ID + "/" + seat,"Client_data.txt");
 		cout << endl <<"You have booked successfully for seat "<< seat << "." << endl;
 		system("pause");
-		system("cls");
 		break;
 
 		//Bypass Store function if found data match in data file
@@ -268,11 +267,10 @@ void F2(){
 	//Delete data if match
     Delete(name,ID);
 	system("pause");
-	system("cls");
 }
 
 //Function3 - Add assignments in batch
-void F3(){
+void F3(){   
     //declare variables
 	string input;
     vector<string> data = {};
@@ -344,7 +342,6 @@ void F3(){
     }
 
 	system("pause");
-	system("cls");
 }
 
 //Function4 - Show latest seating plan
@@ -379,7 +376,6 @@ void F4(){
         cout << endl;
     }
 	system("pause");
-	system("cls");
 }
 
 //Function5_1 - Show Passenger details
@@ -422,59 +418,64 @@ void F5_1(){
 	cout << endl;
 
 	system("pause");
-	system("cls");
 }
 
 //Function5_2 - Show Class details
-void F5_2(){
+void F5_2() {
 	//declare variables
-	string Class,buff2;
-    vector<string> AZ = {"A","B","C","D","E","F"};
-    int class1,class2;
+	string Class, buff2;
+	vector<string> AZ = { "A","B","C","D","E","F" };
+	int class1, class2;
 
 	//Input class
 	cout << "Input Class: ";
 	cin >> Class;
 
 	//Check which class match and set parameter
-    if(Class == "First"||Class == "first"){
-        class1 = 1;
-        class2 = 3;
-    }else if(Class == "Business"||Class == "business"){
-        class1 = 3;
-        class2 = 8;
-    }else if(Class == "Economy"||Class == "economy"){
-        class1 = 8;
-        class2 = 14;
-    }else{
+	if (Class == "First" || Class == "first") {
+		class1 = 1;
+		class2 = 3;
+	}
+	else if (Class == "Business" || Class == "business") {
+		class1 = 3;
+		class2 = 8;
+	}
+	else if (Class == "Economy" || Class == "economy") {
+		class1 = 8;
+		class2 = 14;
+	}
+	else {
 		cout << "Error: Invalid Class" << endl;
+		cout << "Class should be \"First\", \"Business\", or \"Economy\" " << endl;
+		goto failed;
 	}
 
 	//Display Class details
-    for(int l= class1;l < class2;l++){
-        for(auto o: AZ){
+	for (int l = class1; l < class2; l++) {
+		for (auto o : AZ) {
 			//declare variables
-            bool occupied = false;
-            cout << l << o << ": ";
+			bool occupied = false;
+			cout << l << o << ": ";
 
 			//get data
-            for(auto buff1 : readfile()){
-                buff2 = to_string(l)+o;
+			for (auto buff1 : readfile()) {
+				buff2 = to_string(l) + o;
 
 				//Check if seat is occupied or not
-                if(split(buff1)[2] == buff2){
-                    occupied = true;
+				if (split(buff1)[2] == buff2) {
+					occupied = true;
 					//Display name if occupied
-                    cout << split(buff1)[0] << endl;
-                }
-            }
+					cout << split(buff1)[0] << endl;
+				}
+			}
 			//Display vacant if not occupied
-            if(!occupied){
-            cout << "vacant" << endl;
-            }
-        }
-    }
-    cout << endl;
+			if (!occupied) {
+				cout << "vacant" << endl;
+			}
+		}
+	}
+failed:
+	cout << endl;
 	system("pause");
 	system("cls");
 }
@@ -511,6 +512,7 @@ void F5(){
 int main() 
 {	//Declare variable
     char prog_choice;
+
 	do{	//Main Menu
 		cout << "\n\n";
 		cout << "Welcome to HKCC Airplane Seating Assignment System!" << endl;
