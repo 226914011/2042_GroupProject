@@ -159,6 +159,48 @@ void Delete(string name, string ID) {
 cancelled:;
 }
 
+//function - check lower letter
+int cll (string ID){
+    const string az="abcdefghijklmnopqrstuvwxyz";
+    for (char temp : ID){
+        if(az.find(temp)!=string::npos){
+            return 1;
+        }else{
+            continue;
+        }
+    }
+    return 0;
+}
+
+int CheckID(string ID){
+    //Data validity check for ID
+    try{
+        //check ID must not have lower letter
+        if (cll(ID)==1){
+            throw invalid_argument("Error 203: Invalid");
+        }
+    }
+    
+    //Catch expection
+    catch(...){
+        cout << "Error: Your ID is invalid. Please try again." << endl;
+        cout << "Error: Your ID must be use upper letter" << endl;
+        return 1;
+    }
+    return 0;
+}
+
+//Check Seat
+int CheckSeat(string seat) {
+	string parameter = "ABCDEF";
+	int buff2 = stoi(seat.substr(0, seat.size() - 1));
+		if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
+			return 1;
+		}
+		else
+			return 0;
+}
+
 //Function1 - Add an assignment
 void F1() {
 	//declare variables
@@ -178,6 +220,9 @@ void F1() {
 		cout << "Input your desired seat location(e.g.\"10D\"): ";
 		cin >> seat;
 
+		if(CheckID(ID)==1){
+            goto fail;
+        }
 
 		//Data validity check for seat
 		try {
@@ -194,26 +239,6 @@ void F1() {
 			cout << "The colum shoulb be between A-F." << endl;
 			goto fail;
 		}
-
-		/*
-		//Unactivate
-		//This validity check need to depend on ID, please check ID format b4 activate
-		//Data validity check for ID
-		try{
-			//Check if first two letter is "HK" or not
-			//Check if the last letter is in A-Z range or not
-			//And check if the 3-9char is number or not
-			if(ID.substr(0,2)!="HK"|AZ.find(ID.substr(10,11))==string::npos|AZ.find(ID.substr(3,9))!=string::npos){
-				cout << "Error: Your ID is invalid. Please try again." << endl;
-				goto fail;
-			}
-
-		//Catch expection if ID < length 11
-		}catch(...){
-			cout << "Error: Your ID is invalid. Please try again." << endl;
-			goto fail;
-		}
-		*/
 
 		//Check if any data exist in data file
 		if (readfile().size() == 0) {
@@ -284,16 +309,6 @@ void F2() {
 	system("pause");
 	system("cls");
 }
-//Check Seat
-int CheckSeat(string seat) {
-	string parameter = "ABCDEF";
-	int buff2 = stoi(seat.substr(0, seat.size() - 1));
-		if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
-			return 1;
-		}
-		else
-			return 0;
-}
 
 //Function3 - Add assignments in batch
 void F3() {
@@ -306,6 +321,9 @@ void F3() {
 	//Clear input cache
 	input = "\n";
 	getline(cin, input);
+
+	//Anchor point
+	reenter1:;
 
 	//Input name, ID and seat in the specified format
 	cout << "Please input in \"Name/PassportID/Seat\" or \"0\" to end input:" << endl;
@@ -323,6 +341,7 @@ void F3() {
 		string* buffer1 = split(buffer);
 		// buffer1[0] = Name , buffer1[1] = ID , buffer1[2] = seat
 
+		//Validation check for Seat
 		if (CheckSeat(buffer1[2]) == 1) {
 			sucess = false;
 			goto error;
@@ -332,6 +351,11 @@ void F3() {
 		if (readfile().size() == 0) {
 			goto error;
 		}
+
+		//Validation check for ID
+		if(CheckID(buffer1[1])==1){
+            goto reenter1;
+        }
 
 		//Get data to check
 		for (auto str : readfile()) {
