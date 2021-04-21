@@ -182,10 +182,10 @@ void F1() {
 		//Data validity check for seat
 		try {
 			int buff2 = stoi(seat.substr(0, seat.size() - 1));
-			if ((buff2 < 0) || (buff2 > 14) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
+			if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
 				throw invalid_argument("Error 203: Invalid");
 			}
-		//Catch expection
+			//Catch expection
 		}
 		catch (...) {
 			cout << "Error: Your seat is invalid. Please try again." << endl;
@@ -284,6 +284,16 @@ void F2() {
 	system("pause");
 	system("cls");
 }
+//Check Seat
+int CheckSeat(string seat) {
+	string parameter = "ABCDEF";
+	int buff2 = stoi(seat.substr(0, seat.size() - 1));
+		if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
+			return 1;
+		}
+		else
+			return 0;
+}
 
 //Function3 - Add assignments in batch
 void F3() {
@@ -312,9 +322,14 @@ void F3() {
 		bool sucess = true;
 		string* buffer1 = split(buffer);
 
+		if (CheckSeat(buffer1[2]) == 0) {
+			sucess = false;
+			goto error;
+		}
+
 		//Check if any data exist in data file
 		if (readfile().size() == 0) {
-			goto file_not_exist;
+			goto error;
 		}
 
 		//Get data to check
@@ -326,8 +341,9 @@ void F3() {
 				sucess = false;
 			}
 		}
+		
 		//Bypass the for loop if there is not data file to prevent error
-	file_not_exist:;
+		error:;
 
 		//Store success and fail cases
 		if (sucess) {
@@ -448,7 +464,7 @@ void F5_2() {
 	int class1, class2;
 
 	//Input class
-	cout << "You may choose from First, Bussiness or Economy.\n " << "Input Class: ";
+	cout << "You may choose from First, Bussiness or Economy.\nInput Class: ";
 	cin >> Class;
 
 	//Check which class match and set parameter
