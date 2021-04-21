@@ -89,7 +89,7 @@ class cus {       	// The cus
   public:			// Access specifier
     string name;	// Attribute (string variable)
     string id;  	// Attribute (string variable)
-    string sit;  	// Attribute (string variable)
+    string seat;  	// Attribute (string variable)
 };
 
 int main() {
