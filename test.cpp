@@ -52,6 +52,24 @@ vector<string> split(string s){
     return data;
 }
 
+//Function - Split string by delimiter
+//Data format return in array
+string* split(string s){
+    string delimiter = "/";
+    string* datadata = new string[3];
+    size_t pos = 0;
+    string buffer;
+    int counter = 0;
+    while ((pos = s.find(delimiter)) != std::string::npos) {
+        buffer = s.substr(0, pos);
+        datadata[counter] = buffer;
+        s.erase(0, pos + delimiter.length());
+        counter++;
+    }
+    datadata[counter + 1] = s; 
+    return datadata;
+}
+
 //Function - Store data
 void store(string data,string filename){
 	//declare variables
@@ -107,7 +125,13 @@ int main() {
         }
         cout << data_buffer << endl;
     }*/
+    //For example your data is "Chan Tai Man","HK12345678A","10D"
+    string data[3] = {"Chan Tai Man","HK12345678A","10D"};
+    cout << data[0] << endl;
+    cout << data[1] << endl;
+    cout << data[2] << endl;
     
+    /*
     string data_buffer;
     
     cus cus_list[][1];  // Create an object of cus
@@ -134,7 +158,7 @@ int main() {
             }
         }
         cout << data_buffer;
-    }
+    }*/
   return 0;
 }
 
