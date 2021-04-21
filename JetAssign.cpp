@@ -101,7 +101,7 @@ vector<string> buffer = split(data);
 void Delete(string name,string ID){
     //Declare variables
     string confirm;
-    bool detected = false , erased = false;
+    bool detected = false, erased = false;
     vector<string> data = {};
 
 	string* buffer2 = new string[3];
@@ -129,6 +129,7 @@ void Delete(string name,string ID){
                 }else if(confirm=="c"){
                     cout << "Delete action has been canceled!"<< endl;
                     detected = true;
+					goto cancelled;
                 }else{
                     cout << "Error : Invalid input. Try again."<< endl;
                 }
@@ -153,6 +154,7 @@ void Delete(string name,string ID){
         rename("temp.txt", "Client_data.txt");
         cout << "Data file has been updated!" << endl;
     }
+	cancelled:;
 }
 
 //Function1 - Add an assignment
