@@ -322,7 +322,7 @@ void F3() {
 		bool sucess = true;
 		string* buffer1 = split(buffer);
 
-		if (CheckSeat(buffer1[2]) == 0) {
+		if (CheckSeat(buffer1[2]) == 1) {
 			sucess = false;
 			goto seat_error;
 		}
