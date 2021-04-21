@@ -171,16 +171,23 @@ void F1(){
 		cout << "Input your desired seat location(e.g.\"10D\"): ";
 		cin >> seat;
 
+
 		//Data validity check for seat
 		try{
 			int buff2 = stoi(seat.substr(0, seat.size()-1));
 			if((buff2<0) || (buff2>14) || parameter.find(seat.substr(seat.size()-1,seat.size())) == string::npos){
 				cout << "Error: Your seat is invalid. Please try again." << endl;
+				cout << "The Format of the seat location should be\"RowColumn\" and without space." << endl;
+				cout << "The row should be between 1-13." << endl;
+				cout << "The colum shoulb be between A-F." << endl;
 				goto fail;
 			}
 		//Catch expection
 		}catch(...){
 			cout << "Error: Your seat is invalid. Please try again." << endl;
+			cout << "The Format of the seat location should be\"RowColumn\" and without space." << endl;
+			cout << "The row should be between 1-13." << endl;
+			cout << "The colum shoulb be between A-F." << endl;
 			goto fail;
 		}
 
@@ -446,7 +453,7 @@ void F5_2() {
 	}
 	else {
 		cout << "Error: Invalid Class" << endl;
-		cout << "Class should be \"First\", \"Business\", or \"Economy\" " << endl;
+		cout << "Class should be \"First\", \"Business\", or \"Economy\"? " << endl;
 		goto failed;
 	}
 
