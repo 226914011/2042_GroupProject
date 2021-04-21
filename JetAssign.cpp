@@ -323,7 +323,7 @@ void F3() {
 		string* buffer1 = split(buffer);
 		// buffer1[0] = Name , buffer1[1] = ID , buffer1[2] = seat
 
-		if (CheckSeat(buffer1[2]) == 0) {
+		if (CheckSeat(buffer1[2]) == 1) {
 			sucess = false;
 			goto error;
 		}
