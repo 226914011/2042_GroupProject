@@ -169,7 +169,7 @@ public:
 	} 
 };
 
-//function - check lower letter and number
+//Function - check lower letter and number
 int Cll (string ID){
     const string check="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     for (char temp : ID){
@@ -182,15 +182,32 @@ int Cll (string ID){
     return 0;
 }
 
-//function
+//Function - check letter
 int Cl(string name){
-	const string az="abcdefghijklmnopqrstuvwxyzA";
-	for (char temp : name){
-        if(az.find(temp)!=string::npos){
+    const string az="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+    for (char temp : name){
+        if(az.find(temp)==string::npos){
             return 1;
         }else{
             continue;
         }
+    }
+    return 0;
+}
+
+int CheckName(string name){
+    //Data validity check for name
+    try{
+        //check name must not have number
+        if (Cl(name)==1){
+            throw invalid_argument("Error 203: Invalid");
+        }
+    }
+    //Catch expection
+    catch(...){
+        cout << "Error: Your name is invalid. Please try again." << endl;
+        cout<<"name must not have number."<<endl;
+        return 1;
     }
     return 0;
 }
