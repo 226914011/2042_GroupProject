@@ -159,8 +159,11 @@ public:
 				store(str, "temp.txt");
 			}
 			remove("Client_data.txt");
-			rename("temp.txt", "Client_data.txt");
-			cout << "Data file has been updated!" << endl;
+			if(rename("temp.txt", "Client_data.txt") == 0){
+				cout << "Data file has been updated!" << endl;
+			}else{
+				cout << "Error renaming file!" << endl;
+			}
 		}
 	cancelled:;
 	}
