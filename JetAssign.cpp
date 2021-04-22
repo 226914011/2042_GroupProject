@@ -516,8 +516,13 @@ void F5_1() {
 	int buff2 = 0;
 
 	//Input ID
-	cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
-	cin >> ID;
+	cout << "Input your passport ID(e.g.\"HK12345678A\")  or \"q\" to quit: ";
+	getline(cin,ID);
+
+	if(ID == "q"){
+		system("cls");
+		return;
+	}
 
 	//Get data to check
 	for (auto buff1 : DP.Readfile()) {
@@ -547,7 +552,7 @@ void F5_1() {
 	cout << "Error: No matchs found!";
 
 	//Jump out of the for loop if matchs
-end_loop:;
+	end_loop:;
 	cout << endl;
 
 	system("pause");
@@ -560,39 +565,48 @@ void F5_2() {
 	DataProcessing DP;
 	//declare variables
 	string Class, buff2;
-	vector<string> AZ = { "A","B","C","D","E","F" };
+	vector<string> AZ = {"A","B","C","D","E","F"};
 	int class1, class2;
 
-	//Input class
-	cout << "You may choose from First, Bussiness or Economy.\nInput Class: ";
-	cin >> Class;
+	while(true){
+		//Input class
+		cout << "You may choose from First, Business or Economy or \"q\" to quit.\nInput Class: ";
+		getline(cin,Class);
 
-	//Check which class match and set parameter
-	if (Class == "First" || Class == "first") {
-		class1 = 1;
-		class2 = 3;
-	}
-	else if (Class == "Business" || Class == "business") {
-		class1 = 3;
-		class2 = 8;
-	}
-	else if (Class == "Economy" || Class == "economy") {
-		class1 = 8;
-		class2 = 14;
-	}
-	else {
-		cout << "Error: Invalid Class" << endl;
-		cout << "Class should be \"First\", \"Business\", or \"Economy\"? " << endl;
-		goto failed;
+		//Check which class match and set parameter
+		if (Class == "First" || Class == "first") {
+			class1 = 1;
+			class2 = 3;
+			break;
+		}
+		else if (Class == "Business" || Class == "business") {
+			class1 = 3;
+			class2 = 8;
+			break;
+		}
+		else if (Class == "Economy" || Class == "economy") {
+			class1 = 8;
+			class2 = 14;
+			break;
+		}
+		else if (Class == "q"){
+			system("cls");
+			return;
+		}
+		else {
+			cout << "\nError: Invalid Class" << endl;
+			cout << "Class should be \"First\", \"Business\", or \"Economy\"!" << endl;
+		}
 	}
 
 	//Display Class details
-	for (int l = class1; l < class2; l++) {
-		for (auto o : AZ) {
+	for (auto o : AZ) {
+		for (int l = class1; l < class2; l++) {
 			//declare variables
 			bool occupied = false;
-			cout << l << o << ": ";
-
+			string out = "";
+			out = to_string(l) + o + ": ";
+			
 			//get data
 			for (auto buff1 : DP.Readfile()) {
 				buff2 = to_string(l) + o;
@@ -601,16 +615,15 @@ void F5_2() {
 				if (DP.Split(buff1)[2] == buff2) {
 					occupied = true;
 					//Display name if occupied
-					cout << DP.Split(buff1)[0] << endl;
+					out.append(DP.Split(buff1)[0]);
 				}
 			}
 			//Display vacant if not occupied
 			if (!occupied) {
-				cout << "vacant" << endl;
-			}
-		}
+				out.append("vacant");
+			}cout << left << setw(25) << out;
+		}cout << endl;
 	}
-	failed:
 	cout << endl;
 	system("pause");
 	system("cls");
@@ -618,7 +631,9 @@ void F5_2() {
 
 //Function5 - Show details Main Menu
 void F5() {
-	char sub_prog_choice;
+	string sub_prog_choice;
+	char temp1;
+
 	do {	//Main Menu
 		cout << "\n\n";
 		cout << "*** Details ***" << endl;
@@ -627,20 +642,24 @@ void F5() {
 		cout << "[3] Back" << endl;
 		cout << "*****************" << endl;
 		cout << "Option (1-3): ";
-		cin >> sub_prog_choice;
+		getline(cin,sub_prog_choice);
 		cout << "\n\n";
+		
+		try{
+			temp1 = stoi(sub_prog_choice);
+		}catch(...){}
 
 		//Choose Function
-		switch (sub_prog_choice) {
-		case '1': F5_1(); break;
-		case '2': F5_2(); break;
-		case '3': break;
+		switch (temp1) {
+		case 1: F5_1(); break;
+		case 2: F5_2(); break;
+		case 3: break;
 		default:
 			//Indicate error
 			cout << "Error: No such function " << sub_prog_choice << endl;
 			continue; system("cls");
 		}
-	} while (sub_prog_choice != '3');
+	} while (temp1 != 3);
 	system("cls");
 }
 
