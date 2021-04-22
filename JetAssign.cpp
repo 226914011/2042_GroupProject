@@ -138,6 +138,7 @@ public:
 						detected = true;
 						goto cancelled;
 					}
+					//display error when user input wrong value
 					else {
 						cout << "Error : Invalid input. Try again." << endl;
 					}
@@ -145,7 +146,7 @@ public:
 			}
 			data.push_back(buffer);
 
-		//Jump out of the while loop if user delete data
+			//Jump out of the while loop if user delete data
 		erase:;
 		}
 		//Indicate data not match
@@ -159,9 +160,10 @@ public:
 				Store(str, "temp.txt");
 			}
 			remove("Client_data.txt");
-			if(rename("temp.txt", "Client_data.txt") == 0){
+			if (rename("temp.txt", "Client_data.txt") == 0) {
 				cout << "Data file has been updated!" << endl;
-			}else{
+			}
+			else {
 				cout << "Error renaming file!" << endl;
 			}
 		}
@@ -261,13 +263,22 @@ void F1() {
 		//Input name,ID and seat
 		cout << "Input your name(e.g.\"Chan Tai Man\"): ";
 		getline(cin, name);
+		cout << "Attention: Please use upper letter to input passort ID." << endl;
 		cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
 		cin >> ID;
+		cout << "Attention: The format of seat location should be\"RowColumn\" and without space." << endl;
+		cout << setw(11) << " " << "The row should be between 1-13." << endl;
+		cout << setw(11) << " " << "The column shoulb be between A-F." << endl;
 		cout << "Input your desired seat location(e.g.\"10D\"): ";
 		cin >> seat;
 
+
+		//Data validity check for name
+		if (CheckName(name) == 1 ){
+            goto fail;
+        }
 		//Data validity check for ID
-		if(CheckID(ID)==1){
+		if (CheckID(ID) == 1 ){
             goto fail;
         }
 		
@@ -283,7 +294,7 @@ void F1() {
 			cout << "Error: Your seat is invalid. Please try again." << endl;
 			cout << "The Format of the seat location should be\"RowColumn\" and without space." << endl;
 			cout << "The row should be between 1-13." << endl;
-			cout << "The colum shoulb be between A-F." << endl;
+			cout << "The column shoulb be between A-F." << endl;
 			goto fail;
 		}
 
@@ -323,14 +334,14 @@ void F1() {
 				cout << "Error: Please try again." << endl;
 				goto fail;
 
-			//Check if user's ID have booked
+				//Check if user's ID have booked
 			}
 			else if (buffer2[1] == ID) {
 				cout << "Error: You have booked for ID:" << ID << "." << endl;
 				cout << "Error: Please try again." << endl;
 				goto fail;
 
-			//Check if sear have booked
+				//Check if sear have booked
 			}
 			else if (buffer2[2] == seat) {
 				cout << "Error: The seat: " << seat << " has been obtained." << endl;
@@ -340,7 +351,7 @@ void F1() {
 		}
 
 		//Bypass the for loop if there is not data file to prevent error
-		file_not_exist:;
+	file_not_exist:;
 
 		//Store data and indicate book success
 		DP.Store(name + "/" + ID + "/" + seat, "Client_data.txt");
@@ -368,6 +379,7 @@ void F2() {
 	//Input name,ID
 	cout << "Input your name(e.g.\"Chan Tai Man\"): ";
 	getline(cin, name);
+	cout << "Attention: Please use upper letter to input passort ID." << endl;
 	cout << name;
 	cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
 	cin >> ID;
@@ -398,6 +410,11 @@ void F3() {
 	
 	//Input name, ID and seat in the specified format
 	cout << "Please input in \"Name/PassportID/Seat\" or \"0\" to end input:" << endl;
+	cout << "Attention: 1. Please use upper letter to input passort ID."<<endl;
+	cout << setw(11) << " " << "2. The format of seat location should be\"RowColumn\" and without space." << endl;
+	cout << setw(11) << " " << "3. The row should be between 1-13." << endl;
+	cout << setw(11) << " " << "4. The column shoulb be between A-F." << endl;
+
 	getline(cin, input);
 	while (input != "0") {
 		data.push_back(input);
@@ -437,7 +454,7 @@ void F3() {
 			}
 		}
 		//Bypass the for loop if there is not data file to prevent error
-		file_not_exist:;
+	file_not_exist:;
 
 		//Store success and fail cases
 		if (sucess) {
@@ -516,7 +533,8 @@ void F5_1() {
 	int buff2 = 0;
 
 	//Input ID
-	cout << "Input your passport ID(e.g.\"HK12345678A\")  or \"q\" to quit: ";
+	cout << "Attention: Please use upper letter to input passort ID." << endl;
+	cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
 	getline(cin,ID);
 
 	if(ID == "q"){
