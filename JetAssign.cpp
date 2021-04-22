@@ -183,7 +183,7 @@ int Cll (string ID){
     return 0;
 }
 
-//Function - check letter
+//Function - check letters
 int Cl(string name){
     const string az="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
     for (char temp : name){
@@ -199,7 +199,7 @@ int Cl(string name){
 int CheckName(string name){
     //Data validity check for name
     try{
-        //check name must not have number
+        //check name must be letters
         if (Cl(name)==1){
             throw invalid_argument("Error 203: Invalid");
         }
@@ -440,7 +440,7 @@ void F3() {
 			}
 		}
 		//Bypass the for loop if there is not data file to prevent error
-	file_not_exist:;
+		file_not_exist:;
 
 		//Store success and fail cases
 		if (sucess) {
@@ -460,10 +460,11 @@ void F3() {
 			cout << buffer3 << endl;
 		}
 		cout << endl;
+		system("pause");
 	}
 
 	//Display fail case list
-	if (!fail.empty()) {
+	while(!fail.empty()){
 		cout << "Unsuccessful requests:" << endl;
 		for (auto buffer4 : fail) {
 			cout << buffer4 << endl;
@@ -652,8 +653,10 @@ void F5() {
 		getline(cin,sub_prog_choice);
 		cout << "\n\n";
 		
+		//String to int
 		try{
 			temp1 = stoi(sub_prog_choice);
+		//Catch expection
 		}catch(...){}
 
 		//Choose Function
@@ -691,8 +694,10 @@ int main()
 		getline(cin,prog_choice);
 		cout << "\n";
 
+		//String to int
 		try{
 			temp = stoi(prog_choice);
+		//Catch expection
 		}catch(...){}
 		
 		//Choose Function
