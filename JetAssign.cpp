@@ -18,7 +18,7 @@ class DataProcessing
 {
 public:
 	//Function - Store data
-	void store(string data, string filename) {
+	void Store(string data, string filename) {
 		//declare variables
 		char buffer[256];
 		bool empty = true;
@@ -48,7 +48,7 @@ public:
 
 	//Function - Read file data
 	//Data format return in vector
-	vector<string> readfile() {
+	vector<string> Readfile() {
 		//declare variables
 		string filename = "Client_data.txt";
 		string buffer;
@@ -68,14 +68,14 @@ public:
 	}
 	//Please use following commands to get string in each line
 	/*
-	for(auto str : readfile()){
+	for(auto str : Readfile()){
 		cout << str << endl;
 	}
 	*/
 
 	//Function - Split string by delimiter
 	//Data format return in array
-	string* split(string s) {
+	string* Split(string s) {
 		//declare variables
 		string delimiter = "/";
 		string* data = new string[3];
@@ -98,7 +98,7 @@ public:
 	//Please use following commands to get Name, ID, Seat in string
 	/*
 	string* buffer = new string[3];
-	buffer = split(data);
+	buffer = Split(data);
 	*/
 
 	//Function - Delete data
@@ -111,8 +111,8 @@ public:
 		string* buffer2 = new string[3];
 
 		//Get data from file
-		for (auto buffer : readfile()) {
-			buffer2 = split(buffer);
+		for (auto buffer : Readfile()) {
+			buffer2 = Split(buffer);
 			// buffer2[0] = Name , buffer2[1] = ID , buffer2[2] = seat
 
 			//Check if name and ID both match record in Client_data.txt
@@ -156,7 +156,7 @@ public:
 		//If data match and deleted, overwrite Client_data.txt with new data
 		if (erased) {
 			for (auto str : data) {
-				store(str, "temp.txt");
+				Store(str, "temp.txt");
 			}
 			remove("Client_data.txt");
 			if(rename("temp.txt", "Client_data.txt") == 0){
@@ -166,13 +166,26 @@ public:
 			}
 		}
 	cancelled:;
-	}
+	} 
 };
 
-//function - check lower letter
-int cll (string ID){
-    const string az="abcdefghijklmnopqrstuvwxyz";
+//function - check lower letter and number
+int Cll (string ID){
+    const string check="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     for (char temp : ID){
+        if(check.find(temp)==string::npos){
+            return 1;
+        }else{
+            continue;
+        }
+    }
+    return 0;
+}
+
+//function
+int Cl(string name){
+	const string az="abcdefghijklmnopqrstuvwxyzA";
+	for (char temp : name){
         if(az.find(temp)!=string::npos){
             return 1;
         }else{
@@ -181,11 +194,12 @@ int cll (string ID){
     }
     return 0;
 }
+
+//Data validity check for ID
 int CheckID(string ID){
-    //Data validity check for ID
     try{
         //check ID must not have lower letter
-        if (cll(ID)==1){
+        if (Cll(ID)==1){
             throw invalid_argument("Error 203: Invalid");
         }
     }
@@ -197,15 +211,17 @@ int CheckID(string ID){
     }
     return 0;
 }
+
 //Check Seat
 int CheckSeat(string seat) {
 	string parameter = "ABCDEF";
 	int buff2 = stoi(seat.substr(0, seat.size() - 1));
-		if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
-			return 1;
-		}
-		else
-			return 0;
+	if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
+		return 1;
+	}
+	else{
+		return 0;
+	}
 }
 
 //Function1 - Add an assignment
@@ -213,13 +229,12 @@ void F1() {
 	//class quote
 	DataProcessing DP;
 	//declare variables
-	string name, ID, seat, str, data, parameter = { "ABCDEF" }, back;
-	const string AZ = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	string name, ID, seat, str, data, parameter = "ABCDEF", back;
 	//Main loop
-	do {
+	do {/*
 		//Clear input cache
 		name = "\n";
-		getline(cin, name);
+		getline(cin, name);*/
 
 		//Input name,ID and seat
 		cout << "Input your name(e.g.\"Chan Tai Man\"): ";
@@ -233,7 +248,7 @@ void F1() {
 		if(CheckID(ID)==1){
             goto fail;
         }
-
+		
 		//Data validity check for seat
 		try {
 			int buff2 = stoi(seat.substr(0, seat.size() - 1));
@@ -270,14 +285,14 @@ void F1() {
 		*/
 
 		//Check if any data exist in data file
-		if (DP.readfile().size() == 0) {
+		if (DP.Readfile().size() == 0) {
 			goto file_not_exist;
 		}
 
 		//Inport data from data file
-		for (auto str : DP.readfile()) {
+		for (auto str : DP.Readfile()) {
 			string* buffer2 = new string[3];
-			buffer2 = DP.split(str);
+			buffer2 = DP.Split(str);
 			// buffer2[0] = Name , buffer2[1] = ID , buffer2[2] = Seat
 
 			//Check if user's name have booked
@@ -306,7 +321,7 @@ void F1() {
 		file_not_exist:;
 
 		//Store data and indicate book success
-		DP.store(name + "/" + ID + "/" + seat, "Client_data.txt");
+		DP.Store(name + "/" + ID + "/" + seat, "Client_data.txt");
 		cout << endl << "You have booked successfully for seat " << seat << "." << endl;
 		system("pause");
 		system("cls");
@@ -323,10 +338,10 @@ void F2() {
 	DataProcessing DP;
 	//declare variables
 	string name, ID;
-
+	/*
 	//Clear input cache
 	name = "\n";
-	getline(cin, name);
+	getline(cin, name);*/
 
 	//Input name,ID
 	cout << "Input your name(e.g.\"Chan Tai Man\"): ";
@@ -350,10 +365,10 @@ void F3() {
 	vector<string> data = {};
 	vector<string> suces = {};
 	vector<string> fail = {};
-
-	//Clear input cache
+	/*
+	//Clear input cache	
 	input = "\n";
-	getline(cin, input);
+	getline(cin, input);*/
 
 	//Input name, ID and seat in the specified format
 	cout << "Please input in \"Name/PassportID/Seat\" or \"0\" to end input:" << endl;
@@ -368,16 +383,16 @@ void F3() {
 	for (auto buffer : data) {
 		//declare variables
 		bool sucess = true;
-		string* buffer1 = DP.split(buffer);
+		string* buffer1 = DP.Split(buffer);
 
 		//Check if any data exist in data file
-		if (DP.readfile().size() == 0) {
+		if (DP.Readfile().size() == 0) {
 			goto file_not_exist;
 		}
 
 		//Get data to check
-		for (auto str : DP.readfile()) {
-			string* buffer2 = DP.split(str);
+		for (auto str : DP.Readfile()) {
+			string* buffer2 = DP.Split(str);
 
 			//Check if found data match in data file
 			if (buffer1[0] == buffer2[0] || buffer1[1] == buffer2[1] || buffer1[2] == buffer2[2]) {
@@ -390,7 +405,7 @@ void F3() {
 		//Store success and fail cases
 		if (sucess) {
 			suces.push_back(buffer);
-			DP.store(buffer, "Client_data.txt");
+			DP.Store(buffer, "Client_data.txt");
 		}
 		else {
 			fail.push_back(buffer);
@@ -438,9 +453,9 @@ void F4() {
 	for (int numb = 1; numb < 14; numb++) {
 		cout << setw(5) << numb;
 		for (int count = 0; count < 6; count++) {
-			for (auto string1 : DP.readfile()) {
+			for (auto string1 : DP.Readfile()) {
 				//Check user's seat match current seat or not
-				if (to_string(numb) + AZ[count] == DP.split(string1)[2]) {
+				if (to_string(numb) + AZ[count] == DP.Split(string1)[2]) {
 					cout << setw(5) << "X";
 					goto X;
 				}
@@ -468,15 +483,15 @@ void F5_1() {
 	cin >> ID;
 
 	//Get data to check
-	for (auto buff1 : DP.readfile()) {
+	for (auto buff1 : DP.Readfile()) {
 
 		//Display match data
-		if (ID == DP.split(buff1)[1]) {
-			cout << "Name: " << DP.split(buff1)[0] << endl;
-			cout << "ID: " << DP.split(buff1)[1] << endl;
+		if (ID == DP.Split(buff1)[1]) {
+			cout << "Name: " << DP.Split(buff1)[0] << endl;
+			cout << "ID: " << DP.Split(buff1)[1] << endl;
 
 			cout << "Ticket class: ";
-			buff2 = stoi(DP.split(buff1)[2].substr(0, DP.split(buff1)[2].size() - 1));
+			buff2 = stoi(DP.Split(buff1)[2].substr(0, DP.Split(buff1)[2].size() - 1));
 			if (buff2 < 3) {
 				cout << "First";
 			}
@@ -487,7 +502,7 @@ void F5_1() {
 				cout << "Economy";
 			}
 			cout << endl;
-			cout << "Seat: " << DP.split(buff1)[2] << endl;
+			cout << "Seat: " << DP.Split(buff1)[2] << endl;
 			goto end_loop;
 		}
 	}
@@ -542,14 +557,14 @@ void F5_2() {
 			cout << l << o << ": ";
 
 			//get data
-			for (auto buff1 : DP.readfile()) {
+			for (auto buff1 : DP.Readfile()) {
 				buff2 = to_string(l) + o;
 
 				//Check if seat is occupied or not
-				if (DP.split(buff1)[2] == buff2) {
+				if (DP.Split(buff1)[2] == buff2) {
 					occupied = true;
 					//Display name if occupied
-					cout << DP.split(buff1)[0] << endl;
+					cout << DP.Split(buff1)[0] << endl;
 				}
 			}
 			//Display vacant if not occupied
@@ -595,9 +610,10 @@ void F5() {
 //Main Function
 int main()
 {	//Declare variable
-	char prog_choice;
+	string prog_choice;
+	char temp;
 
-	do {	//Main Menu
+	do {		//Main Menu
 		cout << "\n\n";
 		cout << "Welcome to HKCC Airplane Seating Assignment System!" << endl;
 		cout << "*** main menu ***" << endl;
@@ -609,17 +625,21 @@ int main()
 		cout << "[6] Exit" << endl;
 		cout << "*****************" << endl;
 		cout << "Option (1-6): ";
-		cin >> prog_choice;
+		getline(cin,prog_choice);
 		cout << "\n";
 
+		try{
+			temp = stoi(prog_choice);
+		}catch(...){}
+		
 		//Choose Function
-		switch (prog_choice) {
-		case '1': F1(); break;
-		case '2': F2(); break;
-		case '3': F3(); break;
-		case '4': F4(); break;
-		case '5': F5(); break;
-		case '6': break;
+		switch (temp) {
+		case 1: F1(); break;
+		case 2: F2(); break;
+		case 3: F3(); break;
+		case 4: F4(); break;
+		case 5: F5(); break;
+		case 6: break;
 		default:
 			//Indicate error
 			cout << "Error: No such function " << prog_choice << endl;
@@ -627,7 +647,7 @@ int main()
 		}
 
 		//Exit parameter
-	} while (prog_choice != '6');
+	} while (temp != '6');
 
 	//Exit programe
 	cout << "System terminates. Good bye!" << endl;

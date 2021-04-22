@@ -93,7 +93,7 @@ class cus {       	// The cus
 };
 
 int main() {
-    
+    /*
     //Write data
     string data_buffer;
     vector<string> data1;
@@ -114,8 +114,8 @@ int main() {
     }
     for(auto str : data1){
         cout << str;
-    }
-    /*
+    }*/
+    
     //For example your data is "Chan Tai Man","HK12345678A","10D"
     string data[3] = {"Chan Tai Man","HK12345678A","10D"};
     cout << data[0] << endl;
