@@ -138,6 +138,7 @@ public:
 						detected = true;
 						goto cancelled;
 					}
+					//display error when user input wrong value
 					else {
 						cout << "Error : Invalid input. Try again." << endl;
 					}
@@ -145,7 +146,7 @@ public:
 			}
 			data.push_back(buffer);
 
-		//Jump out of the while loop if user delete data
+			//Jump out of the while loop if user delete data
 		erase:;
 		}
 		//Indicate data not match
@@ -159,9 +160,10 @@ public:
 				store(str, "temp.txt");
 			}
 			remove("Client_data.txt");
-			if(rename("temp.txt", "Client_data.txt") == 0){
+			if (rename("temp.txt", "Client_data.txt") == 0) {
 				cout << "Data file has been updated!" << endl;
-			}else{
+			}
+			else {
 				cout << "Error renaming file!" << endl;
 			}
 		}
@@ -170,42 +172,43 @@ public:
 };
 
 //function - check lower letter
-int cll (string ID){
-    const string az="abcdefghijklmnopqrstuvwxyz";
-    for (char temp : ID){
-        if(az.find(temp)!=string::npos){
-            return 1;
-        }else{
-            continue;
-        }
-    }
-    return 0;
+int cll(string ID) {
+	const string az = "abcdefghijklmnopqrstuvwxyz";
+	for (char temp : ID) {
+		if (az.find(temp) != string::npos) {
+			return 1;
+		}
+		else {
+			continue;
+		}
+	}
+	return 0;
 }
-int CheckID(string ID){
-    //Data validity check for ID
-    try{
-        //check ID must not have lower letter
-        if (cll(ID)==1){
-            throw invalid_argument("Error 203: Invalid");
-        }
-    }
-	 //Catch expection
-    catch(...){
-        cout << "Error: Your ID is invalid. Please try again." << endl;
-        cout << "Error: Your ID must be use upper letter" << endl;
-        return 1;
-    }
-    return 0;
+int CheckID(string ID) {
+	//Data validity check for ID
+	try {
+		//check ID must not have lower letter
+		if (cll(ID) == 1) {
+			throw invalid_argument("Error 203: Invalid");
+		}
+	}
+	//Catch expection
+	catch (...) {
+		cout << "Error: Your passport ID is invalid. Please try again." << endl;
+		cout << "Error: Your passport ID must be use upper letter" << endl;
+		return 1;
+	}
+	return 0;
 }
 //Check Seat
 int CheckSeat(string seat) {
 	string parameter = "ABCDEF";
 	int buff2 = stoi(seat.substr(0, seat.size() - 1));
-		if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
-			return 1;
-		}
-		else
-			return 0;
+	if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
+		return 1;
+	}
+	else
+		return 0;
 }
 
 //Function1 - Add an assignment
@@ -224,15 +227,19 @@ void F1() {
 		//Input name,ID and seat
 		cout << "Input your name(e.g.\"Chan Tai Man\"): ";
 		getline(cin, name);
+		cout << "Attention: Please use upper letter to input passort ID." << endl;
 		cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
 		cin >> ID;
+		cout << "Attention: The format of seat location should be\"RowColumn\" and without space." << endl;
+		cout << setw(11) << " " << "The row should be between 1-13." << endl;
+		cout << setw(11) << " " << "The column shoulb be between A-F." << endl;
 		cout << "Input your desired seat location(e.g.\"10D\"): ";
 		cin >> seat;
 
 		//Data validity check for ID
-		if(CheckID(ID)==1){
-            goto fail;
-        }
+		if (CheckID(ID) == 1) {
+			goto fail;
+		}
 
 		//Data validity check for seat
 		try {
@@ -246,7 +253,7 @@ void F1() {
 			cout << "Error: Your seat is invalid. Please try again." << endl;
 			cout << "The Format of the seat location should be\"RowColumn\" and without space." << endl;
 			cout << "The row should be between 1-13." << endl;
-			cout << "The colum shoulb be between A-F." << endl;
+			cout << "The column shoulb be between A-F." << endl;
 			goto fail;
 		}
 
@@ -286,14 +293,14 @@ void F1() {
 				cout << "Error: Please try again." << endl;
 				goto fail;
 
-			//Check if user's ID have booked
+				//Check if user's ID have booked
 			}
 			else if (buffer2[1] == ID) {
 				cout << "Error: You have booked for ID:" << ID << "." << endl;
 				cout << "Error: Please try again." << endl;
 				goto fail;
 
-			//Check if sear have booked
+				//Check if sear have booked
 			}
 			else if (buffer2[2] == seat) {
 				cout << "Error: The seat: " << seat << " has been obtained." << endl;
@@ -303,7 +310,7 @@ void F1() {
 		}
 
 		//Bypass the for loop if there is not data file to prevent error
-		file_not_exist:;
+	file_not_exist:;
 
 		//Store data and indicate book success
 		DP.store(name + "/" + ID + "/" + seat, "Client_data.txt");
@@ -331,6 +338,7 @@ void F2() {
 	//Input name,ID
 	cout << "Input your name(e.g.\"Chan Tai Man\"): ";
 	getline(cin, name);
+	cout << "Attention: Please use upper letter to input passort ID." << endl;
 	cout << name;
 	cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
 	cin >> ID;
@@ -357,6 +365,11 @@ void F3() {
 
 	//Input name, ID and seat in the specified format
 	cout << "Please input in \"Name/PassportID/Seat\" or \"0\" to end input:" << endl;
+	cout << "Attention: 1. Please use upper letter to input passort ID."<<endl;
+	cout << setw(11) << " " << "2. The format of seat location should be\"RowColumn\" and without space." << endl;
+	cout << setw(11) << " " << "3. The row should be between 1-13." << endl;
+	cout << setw(11) << " " << "4. The column shoulb be between A-F." << endl;
+
 	getline(cin, input);
 	while (input != "0") {
 		data.push_back(input);
@@ -385,7 +398,7 @@ void F3() {
 			}
 		}
 		//Bypass the for loop if there is not data file to prevent error
-		file_not_exist:;
+	file_not_exist:;
 
 		//Store success and fail cases
 		if (sucess) {
@@ -464,6 +477,7 @@ void F5_1() {
 	int buff2 = 0;
 
 	//Input ID
+	cout << "Attention: Please use upper letter to input passort ID." << endl;
 	cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
 	cin >> ID;
 
@@ -528,6 +542,7 @@ void F5_2() {
 		class1 = 8;
 		class2 = 14;
 	}
+	//display error when user input wrong value
 	else {
 		cout << "Error: Invalid Class" << endl;
 		cout << "Class should be \"First\", \"Business\", or \"Economy\"? " << endl;
@@ -558,7 +573,7 @@ void F5_2() {
 			}
 		}
 	}
-	failed:
+failed:
 	cout << endl;
 	system("pause");
 	system("cls");
