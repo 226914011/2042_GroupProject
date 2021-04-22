@@ -123,7 +123,7 @@ public:
 					cout << endl;
 					cout << "Record found. Are you sure you want to delete it?" << endl;
 					cout << "Input \"Confirm\" to confirm or \"c\" to cancel." << endl;
-					cin >> confirm;
+					getline(cin,confirm);
 					cout << endl;
 					//Confirm delete
 					if (confirm == "Confirm") {
@@ -147,7 +147,7 @@ public:
 			//Jump out of the while loop if user delete data
 			erase:;
 		}
-		
+
 		//Indicate data not match
 		if (!detected || !erased) {
 			cout << "No match detected!" << endl;
@@ -260,12 +260,12 @@ void F1() {
 		getline(cin, name);
 		cout << "Attention: Please use upper letter to input passort ID." << endl;
 		cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
-		cin >> ID;
+		getline(cin, ID);
 		cout << "Attention: The format of seat location should be\"RowColumn\" and without space." << endl;
 		cout << setw(11) << " " << "The row should be between 1-13." << endl;
 		cout << setw(11) << " " << "The column shoulb be between A-F." << endl;
 		cout << "Input your desired seat location(e.g.\"10D\"): ";
-		cin >> seat;
+		getline(cin, seat);
 
 
 		//Data validity check for name
@@ -353,10 +353,10 @@ void F2() {
 
 	//Input name,ID
 	cout << "Input your name(e.g.\"Chan Tai Man\"): ";
-	getline(cin, name);
+	getline(cin,name);
 	cout << "\nAttention: Please use upper letter to input passort ID." << endl;
 	cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
-	cin >> ID;
+	getline(cin,ID);
 
 	//Data validity check for name
 	if (CheckName(name) == 1 ){
