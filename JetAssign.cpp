@@ -95,9 +95,10 @@ public:
 		//Returning data in array
 		return data;
 	}
-	//Please use following commands to get strings in each line
+	//Please use following commands to get Name, ID, Seat in string
 	/*
-	vector<string> buffer = split(data);
+	string* buffer = new string[3];
+	buffer = split(data);
 	*/
 
 	//Function - Delete data
@@ -124,12 +125,14 @@ public:
 					cout << "Input \"Confirm\" to confirm or \"c\" to cancel." << endl;
 					cin >> confirm;
 					cout << endl;
+					//Confirm delete
 					if (confirm == "Confirm") {
 						cout << "Data Deleted!" << endl;
 						detected = true;
 						erased = true;
 						goto erase;
 					}
+					//Cancel delete
 					else if (confirm == "c") {
 						cout << "Delete action has been canceled!" << endl;
 						detected = true;
@@ -142,7 +145,7 @@ public:
 			}
 			data.push_back(buffer);
 
-			//Jump out of the while loop if user delete data
+		//Jump out of the while loop if user delete data
 		erase:;
 		}
 		//Indicate data not match
@@ -280,14 +283,14 @@ void F1() {
 				cout << "Error: Please try again." << endl;
 				goto fail;
 
-				//Check if user's ID have booked
+			//Check if user's ID have booked
 			}
 			else if (buffer2[1] == ID) {
 				cout << "Error: You have booked for ID:" << ID << "." << endl;
 				cout << "Error: Please try again." << endl;
 				goto fail;
 
-				//Check if sear have booked
+			//Check if sear have booked
 			}
 			else if (buffer2[2] == seat) {
 				cout << "Error: The seat: " << seat << " has been obtained." << endl;
@@ -297,7 +300,7 @@ void F1() {
 		}
 
 		//Bypass the for loop if there is not data file to prevent error
-	file_not_exist:;
+		file_not_exist:;
 
 		//Store data and indicate book success
 		DP.store(name + "/" + ID + "/" + seat, "Client_data.txt");
@@ -379,7 +382,7 @@ void F3() {
 			}
 		}
 		//Bypass the for loop if there is not data file to prevent error
-	file_not_exist:;
+		file_not_exist:;
 
 		//Store success and fail cases
 		if (sucess) {
@@ -552,7 +555,7 @@ void F5_2() {
 			}
 		}
 	}
-failed:
+	failed:
 	cout << endl;
 	system("pause");
 	system("cls");
