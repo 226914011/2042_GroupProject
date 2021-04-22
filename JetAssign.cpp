@@ -223,7 +223,7 @@ int CheckID(string ID){
 	 //Catch expection
     catch(...){
         cout << "Error: Your ID is invalid. Please try again." << endl;
-        cout << "Error: Your ID must be use upper letter" << endl;
+        cout << "Error: Your ID must be number and upper letter" << endl;
         return 1;
     }
     return 0;
@@ -231,14 +231,19 @@ int CheckID(string ID){
 
 //Check Seat
 int CheckSeat(string seat) {
-	string parameter = "ABCDEF";
-	int buff2 = stoi(seat.substr(0, seat.size() - 1));
-	if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
-		return 1;
+	try{
+		string parameter = "ABCDEF";
+		int buff2 = stoi(seat.substr(0, seat.size() - 1));
+		if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
+			throw invalid_argument("Error 203: Invalid");
+		}
 	}
-	else{
-		return 0;
-	}
+	catch(...){
+        cout << "Error: Your Seat is invalid. Please try again." << endl;
+        cout << "Error: Your Seat must be \"1-13\"+\"A-F\"" << endl;
+        return 1;
+    }
+    return 0;
 }
 
 //Function1 - Add an assignment
@@ -387,6 +392,10 @@ void F3() {
 	input = "\n";
 	getline(cin, input);*/
 
+	//Anchor point
+	reenter1:;
+
+	
 	//Input name, ID and seat in the specified format
 	cout << "Please input in \"Name/PassportID/Seat\" or \"0\" to end input:" << endl;
 	getline(cin, input);
@@ -401,6 +410,17 @@ void F3() {
 		//declare variables
 		bool sucess = true;
 		string* buffer1 = DP.Split(buffer);
+
+		//Validation check for Seat
+		if (CheckSeat(buffer1[2]) == 1) {
+			sucess = false;
+			goto reenter1;
+		}
+
+		//Validation check for ID
+		if(CheckID(buffer1[1])==1){
+            goto reenter1;
+		}
 
 		//Check if any data exist in data file
 		if (DP.Readfile().size() == 0) {
