@@ -352,7 +352,7 @@ void F2() {
 	reenter2:;
 
 	//Input name,ID
-	cout << "Input your name(e.g.\"Chan Tai Man\"): ";
+	cout << "\nInput your name(e.g.\"Chan Tai Man\"): ";
 	getline(cin,name);
 	cout << "\nAttention: Please use upper letter to input passort ID." << endl;
 	cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
@@ -386,15 +386,19 @@ void F3() {
 
 	
 	//Input name, ID and seat in the specified format
-	cout << "Please input in \"Name/PassportID/Seat\" or \"0\" to end input:" << endl;
 	cout << "Attention: 1. Please use upper letter to input passort ID."<<endl;
 	cout << setw(11) << " " << "2. The format of seat location should be\"RowColumn\" and without space." << endl;
 	cout << setw(11) << " " << "3. The row should be between 1-13." << endl;
 	cout << setw(11) << " " << "4. The column shoulb be between A-F." << endl;
-
+	cout << "\nPlease input in \"Name/PassportID/Seat\" or \"0\" to end input:" << endl;
+	
+	int i = 1;
+	cout << i << ": ";
 	getline(cin, input);
 	while (input != "0") {
+		i++;
 		data.push_back(input);
+		cout << i << ": ";
 		getline(cin, input);
 	}
 	cout << endl;
@@ -633,10 +637,11 @@ void F5_2() {
 
 //Function5 - Show details Main Menu
 void F5() {
+	system("cls");
 	string sub_prog_choice;
 	char temp1;
 
-	do {	//Main Menu
+	do {		//Main Menu
 		cout << "\n\n";
 		cout << "*** Details ***" << endl;
 		cout << "[1] Passenger" << endl;
@@ -705,7 +710,7 @@ int main()
 		}
 
 		//Exit parameter
-	} while (temp != '6');
+	} while (temp != 6);
 
 	//Exit programe
 	cout << "System terminates. Good bye!" << endl;
