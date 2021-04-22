@@ -163,6 +163,45 @@ public:
 	}
 };
 
+//function - check lower letter
+int cll (string ID){
+    const string az="abcdefghijklmnopqrstuvwxyz";
+    for (char temp : ID){
+        if(az.find(temp)!=string::npos){
+            return 1;
+        }else{
+            continue;
+        }
+    }
+    return 0;
+}
+int CheckID(string ID){
+    //Data validity check for ID
+    try{
+        //check ID must not have lower letter
+        if (cll(ID)==1){
+            throw invalid_argument("Error 203: Invalid");
+        }
+    }
+	 //Catch expection
+    catch(...){
+        cout << "Error: Your ID is invalid. Please try again." << endl;
+        cout << "Error: Your ID must be use upper letter" << endl;
+        return 1;
+    }
+    return 0;
+}
+//Check Seat
+int CheckSeat(string seat) {
+	string parameter = "ABCDEF";
+	int buff2 = stoi(seat.substr(0, seat.size() - 1));
+		if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
+			return 1;
+		}
+		else
+			return 0;
+}
+
 //Function1 - Add an assignment
 void F1() {
 	//class quote
@@ -184,11 +223,15 @@ void F1() {
 		cout << "Input your desired seat location(e.g.\"10D\"): ";
 		cin >> seat;
 
+		//Data validity check for ID
+		if(CheckID(ID)==1){
+            goto fail;
+        }
 
 		//Data validity check for seat
 		try {
 			int buff2 = stoi(seat.substr(0, seat.size() - 1));
-			if ((buff2 < 0) || (buff2 > 14) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
+			if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
 				throw invalid_argument("Error 203: Invalid");
 			}
 			//Catch expection
@@ -463,7 +506,7 @@ void F5_2() {
 	int class1, class2;
 
 	//Input class
-	cout << "Input Class: ";
+	cout << "You may choose from First, Bussiness or Economy.\nInput Class: ";
 	cin >> Class;
 
 	//Check which class match and set parameter
