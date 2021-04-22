@@ -37,22 +37,6 @@ vector<string> readfile(){
 }
 
 //Function - Split string by delimiter
-//Data format return in vector
-vector<string> split(string s){
-    string delimiter = "/";
-    vector<string> data;
-    size_t pos = 0;
-    string buffer;
-    while ((pos = s.find(delimiter)) != std::string::npos) {
-        buffer = s.substr(0, pos);
-        data.push_back(buffer);
-        s.erase(0, pos + delimiter.length());
-    }
-    data.push_back(s);
-    return data;
-}
-
-//Function - Split string by delimiter
 //Data format return in array
 string* split(string s){
     string delimiter = "/";
@@ -105,54 +89,68 @@ class cus {       	// The cus
   public:			// Access specifier
     string name;	// Attribute (string variable)
     string id;  	// Attribute (string variable)
-    string sit;  	// Attribute (string variable)
+    string seat;  	// Attribute (string variable)
 };
 
 int main() {
-    /*
+    
     //Write data
     string data_buffer;
-    string data[][3] = {{"Chan Tai Man","HK12345678A","10D"},{"Pan Peter","US2356AAD11","2E"},{"Chu Mimi","ER273","1A"}}; 
-    int rows = (sizeof(data)/sizeof(data[0]));
-    int cols = (sizeof(data[0])/sizeof(string));
-    for(int i=0;i<rows;i++){
+    vector<string> data1;
+    //string data[][3] = {{"Chan Tai Man","HK12345678A","10D"},{"Pan Peter","US2356AAD11","2E"},{"Chu Mimi","ER273","1A"}};
+    string data[3] = {"Chan Tai Man","HK12345678A","10D"};
+    //int rows = (sizeof(data)/sizeof(data[0]));
+    //int cols = (sizeof(data[0])/sizeof(string));
+    for(int i=0;i<3;i++){
         data_buffer = "";
-        for(int j=0;j<cols;j++){
-            data_buffer.append(data[i][j]);
-            if(j < 2){
+        //for(int j=0;j<cols;j++){
+            data_buffer.append(data[i]);
+            if(i < 2){
                 data_buffer.append("/");
             }
-        }
-        cout << data_buffer << endl;
-    }*/
+        //}
+        //cout << data_buffer << endl;
+        data1.push_back(data_buffer);
+    }
+    for(auto str : data1){
+        cout << str;
+    }
+    /*
     //For example your data is "Chan Tai Man","HK12345678A","10D"
     string data[3] = {"Chan Tai Man","HK12345678A","10D"};
     cout << data[0] << endl;
     cout << data[1] << endl;
     cout << data[2] << endl;
     
-    /*
+    
     string data_buffer;
     
-    cus cus_list[][1];  // Create an object of cus
+    cus* cus_list;  // Create an object of cus
     
 
     // Access attributes and set values
-    cus_list[0][0].name = "Chan Tai Man";
-    cus_list[0][0].id = "HK12345678A";
-    cus_list[0][0].sit = "10D";
+    cus_list[0].name = "Chan Tai Man";
+    cus_list[0].id = "HK12345678A";
+    cus_list[0].seat = "10D";
   
-    cus_list[1][0].name = "Pan Peter";
-    cus_list[1][0].id = "US2356AAD11";
-    cus_list[1][0].sit = "2E";
+    cus_list[1].name = "Pan Peter";
+    cus_list[1].id = "US2356AAD11";
+    cus_list[1].seat = "2E";
 
+
+ 
     // Print values
     int rows = (sizeof(cus_list)/sizeof(cus_list[0]));
-    int cols = (sizeof(cus_list[0])/sizeof(string));
+    //int cols = (sizeof(cus_list[0])/sizeof(string));
+
+    for(int i=0;i<rows;i++){
+        cout << cus_list[i];
+    }
+    /*
     for(int i=0;i<rows;i++){
         data_buffer = "";
         for(int j=0;j<cols;j++){
-            data_buffer.append(cus_list[i][j]);
+            data_buffer.append(cus_list[i]);
             if(j < 2){
                 data_buffer.append("/");
             }
