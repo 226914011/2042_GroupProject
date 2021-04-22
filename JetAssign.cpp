@@ -298,25 +298,6 @@ void F1() {
 			goto fail;
 		}
 
-		/*
-		//Unactivate
-		//This validity check need to depend on ID, please check ID format b4 activate
-		//Data validity check for ID
-		try{
-			//Check if first two letter is "HK" or not
-			//Check if the last letter is in A-Z range or not
-			//And check if the 3-9char is number or not
-			if(ID.substr(0,2)!="HK"|AZ.find(ID.substr(10,11))==string::npos|AZ.find(ID.substr(3,9))!=string::npos){
-				cout << "Error: Your ID is invalid. Please try again." << endl;
-				goto fail;
-			}
-		//Catch expection if ID < length 11
-		}catch(...){
-			cout << "Error: Your ID is invalid. Please try again." << endl;
-			goto fail;
-		}
-		*/
-
 		//Check if any data exist in data file
 		if (DP.Readfile().size() == 0) {
 			goto file_not_exist;
@@ -371,18 +352,25 @@ void F2() {
 	DataProcessing DP;
 	//declare variables
 	string name, ID;
-	/*
-	//Clear input cache
-	name = "\n";
-	getline(cin, name);*/
+	
+	//Anchor point
+	reenter2:;
 
 	//Input name,ID
 	cout << "Input your name(e.g.\"Chan Tai Man\"): ";
 	getline(cin, name);
-	cout << "Attention: Please use upper letter to input passort ID." << endl;
-	cout << name;
+	cout << "\nAttention: Please use upper letter to input passort ID." << endl;
 	cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
 	cin >> ID;
+
+	//Data validity check for name
+	if (CheckName(name) == 1 ){
+		goto reenter2;
+	}
+	//Data validity check for ID
+	if (CheckID(ID) == 1 ){
+		goto reenter2;
+	}
 
 	//Delete data if match
 	DP.Delete(name, ID);
@@ -396,13 +384,7 @@ void F3() {
 	DataProcessing DP;
 	//declare variables
 	string input;
-	vector<string> data = {};
-	vector<string> suces = {};
-	vector<string> fail = {};
-	/*
-	//Clear input cache	
-	input = "\n";
-	getline(cin, input);*/
+	vector<string> data = {},suces = {},fail = {};
 
 	//Anchor point
 	reenter1:;
