@@ -351,7 +351,7 @@ void F1() {
 		}
 
 		//Bypass the for loop if there is not data file to prevent error
-	file_not_exist:;
+		file_not_exist:;
 
 		//Store data and indicate book success
 		DP.Store(name + "/" + ID + "/" + seat, "Client_data.txt");
@@ -361,7 +361,7 @@ void F1() {
 		break;
 
 		//Bypass Store function if found data match in data file
-	fail:;
+		fail:;
 	} while (true);
 }
 
@@ -428,15 +428,20 @@ void F3() {
 		bool sucess = true;
 		string* buffer1 = DP.Split(buffer);
 
+		//Data validity check for Name
+		if (CheckName(buffer1[0]) == 1 ){
+            goto reenter1;
+        }
+
+		//Validation check for ID
+		if (CheckID(buffer1[1])==1){
+            goto reenter1;
+		}
+
 		//Validation check for Seat
 		if (CheckSeat(buffer1[2]) == 1) {
 			sucess = false;
 			goto reenter1;
-		}
-
-		//Validation check for ID
-		if(CheckID(buffer1[1])==1){
-            goto reenter1;
 		}
 
 		//Check if any data exist in data file
@@ -540,6 +545,8 @@ void F5_1() {
 	if(ID == "q"){
 		system("cls");
 		return;
+	}else if(CheckID(ID) == 1){
+		goto end_loop;
 	}
 
 	//Get data to check
