@@ -143,12 +143,11 @@ public:
 						cout << "Error : Invalid input. Try again." << endl;
 					}
 				}
-			}
-			data.push_back(buffer);
-
+			}data.push_back(buffer);
 			//Jump out of the while loop if user delete data
-		erase:;
+			erase:;
 		}
+		
 		//Indicate data not match
 		if (!detected || !erased) {
 			cout << "No match detected!" << endl;
@@ -255,11 +254,7 @@ void F1() {
 	//declare variables
 	string name, ID, seat, str, data, parameter = "ABCDEF", back;
 	//Main loop
-	do {/*
-		//Clear input cache
-		name = "\n";
-		getline(cin, name);*/
-
+	do {
 		//Input name,ID and seat
 		cout << "Input your name(e.g.\"Chan Tai Man\"): ";
 		getline(cin, name);
