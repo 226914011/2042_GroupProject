@@ -190,25 +190,28 @@ public:
 		return 0;
 	}
 
-	int CheckName(string name) {
+	int CheckName(string name,bool out) {
 		//Data validity check for name
 		try {
 			//check name must be letters
+			
 			if (Cl(name) == 1) {
 				throw invalid_argument("Error 203: Invalid");
 			}
 		}
 		//Catch expection
 		catch (...) {
-			cout << "Error: Your name is invalid. Please try again." << endl;
-			cout << "name must not have number." << endl;
+			if(out == true){
+				cout << "Error: Your name is invalid. Please try again." << endl;
+				cout << "name must not have number." << endl;
+			}
 			return 1;
 		}
 		return 0;
 	}
 
 	//Data validity check for ID
-	int CheckID(string ID) {
+	int CheckID(string ID,bool out) {
 		try {
 			//check ID must not have lower letter
 			if (Cll(ID) == 1) {
@@ -217,15 +220,17 @@ public:
 		}
 		//Catch expection
 		catch (...) {
-			cout << "Error: Your ID is invalid. Please try again." << endl;
-			cout << "Error: Your ID must be number and upper letter" << endl;
+			if(out == true){
+				cout << "Error: Your ID is invalid. Please try again." << endl;
+				cout << "Error: Your ID must be number and upper letter" << endl;
+			}
 			return 1;
 		}
 		return 0;
 	}
 
 	//Check Seat
-	int CheckSeat(string seat) {
+	int CheckSeat(string seat,bool out) {
 		try {
 			string parameter = "ABCDEF";
 			int buff2 = stoi(seat.substr(0, seat.size() - 1));
@@ -234,8 +239,10 @@ public:
 			}
 		}
 		catch (...) {
-			cout << "Error: Your Seat is invalid. Please try again." << endl;
-			cout << "Error: Your Seat must be \"1-13\"+\"A-F\"" << endl;
+			if(out == true){
+				cout << "Error: Your Seat is invalid. Please try again." << endl;
+				cout << "Error: Your Seat must be \"1-13\"+\"A-F\"" << endl;
+			}
 			return 1;
 		}
 		return 0;
@@ -265,11 +272,11 @@ void F1() {
 
 
 		//Data validity check for name
-		if (CI.CheckName(name) == 1) {
+		if (CI.CheckName(name,true) == 1) {
 			goto fail;
 		}
 		//Data validity check for ID
-		if (CI.CheckID(ID) == 1) {
+		if (CI.CheckID(ID,true) == 1) {
 			goto fail;
 		}
 
@@ -347,7 +354,7 @@ void F2() {
 	string name, ID;
 
 	//Anchor point
-reenter2:;
+	reenter2:;
 
 	//Input name,ID
 	cout << "\nInput your name(e.g.\"Chan Tai Man\"): ";
@@ -357,11 +364,11 @@ reenter2:;
 	getline(cin, ID);
 
 	//Data validity check for name
-	if (CI.CheckName(name) == 1) {
+	if (CI.CheckName(name,true) == 1) {
 		goto reenter2;
 	}
 	//Data validity check for ID
-	if (CI.CheckID(ID) == 1) {
+	if (CI.CheckID(ID,true) == 1) {
 		goto reenter2;
 	}
 
@@ -382,7 +389,7 @@ void F3() {
 	vector<string> data = {}, suces = {}, fail = {};
 
 	//Anchor point
-reenter1:;
+	reenter1:;
 
 
 	//Input name, ID and seat in the specified format
@@ -409,20 +416,20 @@ reenter1:;
 		bool sucess = true;
 		string* buffer1 = DP.Split(buffer);
 
+		
 		//Data validity check for Name
-		if (CI.CheckName(buffer1[0]) == 1) {
-			goto reenter1;
-		}
-
+		if (CI.CheckName(buffer1[0],false) == 1 ){
+            sucess = false;
+        }
+		
 		//Validation check for ID
-		if (CI.CheckID(buffer1[1]) == 1) {
-			goto reenter1;
+		if (CI.CheckID(buffer1[1],false)==1){
+            sucess = false;
 		}
 
 		//Validation check for Seat
-		if (CI.CheckSeat(buffer1[2]) == 1) {
+		if (CI.CheckSeat(buffer1[2],false) == 1) {
 			sucess = false;
-			goto reenter1;
 		}
 
 		//Check if any data exist in data file
@@ -440,7 +447,7 @@ reenter1:;
 			}
 		}
 		//Bypass the for loop if there is not data file to prevent error
-	file_not_exist:;
+		file_not_exist:;
 
 		//Store success and fail cases
 		if (sucess) {
@@ -460,11 +467,10 @@ reenter1:;
 			cout << buffer3 << endl;
 		}
 		cout << endl;
-		system("pause");
 	}
 
 	//Display fail case list
-	while (!fail.empty()) {
+	if (!fail.empty()) {
 		cout << "Unsuccessful requests:" << endl;
 		for (auto buffer4 : fail) {
 			cout << buffer4 << endl;
@@ -531,7 +537,7 @@ void F5_1() {
 		system("cls");
 		return;
 	}
-	else if (CI.CheckID(ID) == 1) {
+	else if (CI.CheckID(ID,true) == 1) {
 		goto end_loop;
 	}
 
@@ -563,7 +569,7 @@ void F5_1() {
 	cout << "Error: No matchs found!";
 
 	//Jump out of the for loop if matchs
-end_loop:;
+	end_loop:;
 	cout << endl;
 
 	system("pause");
