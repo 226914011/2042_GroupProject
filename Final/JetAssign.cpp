@@ -264,10 +264,10 @@ void F1() {
 		//Input name,ID and seat
 		cout << "Input your name(e.g.\"Chan Tai Man\"): ";
 		getline(cin, name);
-		cout << "Attention: Please use upper letter to input passort ID." << endl;
+		cout << "\nAttention: Please use upper letter to input passort ID." << endl;
 		cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
 		getline(cin, ID);
-		cout << "Attention: The format of seat location should be\"RowColumn\" and without space." << endl;
+		cout << "\nAttention: The format of seat location should be\"RowColumn\" and without space." << endl;
 		cout << setw(11) << " " << "The row should be between 1-13." << endl;
 		cout << setw(11) << " " << "The column shoulb be between A-F." << endl;
 		cout << "Input your desired seat location(e.g.\"10D\"): ";
@@ -536,7 +536,7 @@ void F5_1() {
 	//Input ID
 	cout << "You may enter the passport ID or \"q\" to quit." << endl;
 	cout << "Attention: Please use upper letter to input passort ID" << endl;
-	cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
+	cout << "\nInput your passport ID(e.g.\"HK12345678A\"): ";
 	getline(cin, ID);
 
 	//check if user input "q"
