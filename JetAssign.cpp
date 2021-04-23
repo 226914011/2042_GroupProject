@@ -190,6 +190,7 @@ public:
 		return 0;
 	}
 
+	//Data validity check for name
 	int CheckName(string name,bool out) {
 		//Data validity check for name
 		try {
@@ -232,12 +233,14 @@ public:
 	//Check Seat
 	int CheckSeat(string seat,bool out) {
 		try {
+			//check Seat must not exclude the seat range
 			string parameter = "ABCDEF";
 			int buff2 = stoi(seat.substr(0, seat.size() - 1));
 			if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
 				throw invalid_argument("Error 203: Invalid");
 			}
 		}
+		//Catch expection
 		catch (...) {
 			if(out == true){
 				cout << "Error: Your Seat is invalid. Please try again." << endl;
@@ -286,8 +289,8 @@ void F1() {
 			if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
 				throw invalid_argument("Error 203: Invalid");
 			}
-			//Catch expection
 		}
+		//Catch expection
 		catch (...) {
 			cout << "Error: Your seat is invalid. Please try again." << endl;
 			cout << "The Format of the seat location should be\"RowColumn\" and without space." << endl;
@@ -312,16 +315,14 @@ void F1() {
 				cout << "Error: You have booked for name: " << name << "." << endl;
 				cout << "Error: Please try again." << endl;
 				goto fail;
-
-				//Check if user's ID have booked
 			}
+			//Check if user's ID have booked
 			else if (buffer2[1] == ID) {
 				cout << "Error: You have booked for ID:" << ID << "." << endl;
 				cout << "Error: Please try again." << endl;
 				goto fail;
-
-				//Check if sear have booked
 			}
+			//Check if seat have booked
 			else if (buffer2[2] == seat) {
 				cout << "Error: The seat: " << seat << " has been obtained." << endl;
 				cout << "Error: Please choose another one." << endl;
@@ -335,6 +336,7 @@ void F1() {
 		//Store data and indicate book success
 		DP.Store(name + "/" + ID + "/" + seat, "Client_data.txt");
 		cout << endl << "You have booked successfully for seat " << seat << "." << endl;
+		//Pause and Clear screen
 		system("pause");
 		system("cls");
 		break;
@@ -374,6 +376,7 @@ void F2() {
 
 	//Delete data if match
 	DP.Delete(name, ID);
+	//Pause and Clear screen
 	system("pause");
 	system("cls");
 }
@@ -399,6 +402,7 @@ void F3() {
 	cout << setw(11) << " " << "4. The column shoulb be between A-F." << endl;
 	cout << "\nPlease input in \"Name/PassportID/Seat\" or \"0\" to end input:" << endl;
 
+	//input name, ID and seat
 	int i = 1;
 	cout << i << ": ";
 	getline(cin, input);
@@ -477,7 +481,7 @@ void F3() {
 		}
 		cout << endl;
 	}
-
+	//Pause and Clear screen
 	system("pause");
 	system("cls");
 }
@@ -514,6 +518,7 @@ void F4() {
 		}
 		cout << endl;
 	}
+	//Pause and Clear screen
 	system("pause");
 	system("cls");
 }
@@ -529,14 +534,18 @@ void F5_1() {
 	int buff2 = 0;
 
 	//Input ID
-	cout << "Attention: Please use upper letter to input passort ID." << endl;
+	cout << "You may enter the passport ID or \"q\" to quit." << endl;
+	cout << "Attention: Please use upper letter to input passort ID" << endl;
 	cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
 	getline(cin, ID);
 
+	//check if user input "q"
 	if (ID == "q") {
+		//Clear screen and exit
 		system("cls");
 		return;
 	}
+	//Validation check for ID
 	else if (CI.CheckID(ID,true) == 1) {
 		goto end_loop;
 	}
@@ -572,6 +581,7 @@ void F5_1() {
 	end_loop:;
 	cout << endl;
 
+	//Pause and Clear screen
 	system("pause");
 	system("cls");
 }
@@ -608,6 +618,7 @@ void F5_2() {
 			break;
 		}
 		else if (Class == "q") {
+			//Clear screen and exit
 			system("cls");
 			return;
 		}
@@ -643,13 +654,16 @@ void F5_2() {
 		}cout << endl;
 	}
 	cout << endl;
+	//Pause and Clear screen
 	system("pause");
 	system("cls");
 }
 
 //Function5 - Show details Main Menu
 void F5() {
+	//Clear screen
 	system("cls");
+	//declare variables
 	string sub_prog_choice;
 	char temp1;
 
@@ -680,9 +694,11 @@ void F5() {
 		default:
 			//Indicate error
 			cout << "Error: No such function " << sub_prog_choice << endl;
+			//Continue and Clear screen
 			continue; system("cls");
 		}
 	} while (temp1 != 3);
+	//Clear screen
 	system("cls");
 }
 
