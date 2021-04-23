@@ -66,12 +66,6 @@ public:
 		//Returning data in vector
 		return data;
 	}
-	//Please use following commands to get string in each line
-	/*
-	for(auto str : Readfile()){
-		cout << str << endl;
-	}
-	*/
 
 	//Function - Split string by delimiter
 	//Data format return in array
@@ -95,11 +89,6 @@ public:
 		//Returning data in array
 		return data;
 	}
-	//Please use following commands to get Name, ID, Seat in string
-	/*
-	string* buffer = new string[3];
-	buffer = Split(data);
-	*/
 
 	//Function - Delete data
 	void Delete(string name, string ID) {
@@ -123,7 +112,7 @@ public:
 					cout << endl;
 					cout << "Record found. Are you sure you want to delete it?" << endl;
 					cout << "Input \"Confirm\" to confirm or \"c\" to cancel." << endl;
-					getline(cin,confirm);
+					getline(cin, confirm);
 					cout << endl;
 					//Confirm delete
 					if (confirm == "Confirm") {
@@ -145,7 +134,7 @@ public:
 				}
 			}data.push_back(buffer);
 			//Jump out of the while loop if user delete data
-			erase:;
+		erase:;
 		}
 
 		//Indicate data not match
@@ -167,90 +156,107 @@ public:
 			}
 		}
 	cancelled:;
-	} 
+	}
 };
 
-//Function - check lower letter and number
-int Cll (string ID){
-    const string check="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-    for (char temp : ID){
-        if(check.find(temp)==string::npos){
-            return 1;
-        }else{
-            continue;
-        }
-    }
-    return 0;
-}
-
-//Function - check letters
-int Cl(string name){
-    const string az="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
-    for (char temp : name){
-        if(az.find(temp)==string::npos){
-            return 1;
-        }else{
-            continue;
-        }
-    }
-    return 0;
-}
-
-int CheckName(string name){
-    //Data validity check for name
-    try{
-        //check name must be letters
-        if (Cl(name)==1){
-            throw invalid_argument("Error 203: Invalid");
-        }
-    }
-    //Catch expection
-    catch(...){
-        cout << "Error: Your name is invalid. Please try again." << endl;
-        cout<<"name must not have number."<<endl;
-        return 1;
-    }
-    return 0;
-}
-
-//Data validity check for ID
-int CheckID(string ID){
-    try{
-        //check ID must not have lower letter
-        if (Cll(ID)==1){
-            throw invalid_argument("Error 203: Invalid");
-        }
-    }
-	 //Catch expection
-    catch(...){
-        cout << "Error: Your ID is invalid. Please try again." << endl;
-        cout << "Error: Your ID must be number and upper letter" << endl;
-        return 1;
-    }
-    return 0;
-}
-
-//Check Seat
-int CheckSeat(string seat) {
-	try{
-		string parameter = "ABCDEF";
-		int buff2 = stoi(seat.substr(0, seat.size() - 1));
-		if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
-			throw invalid_argument("Error 203: Invalid");
+class CheckInfo
+{
+public:
+	//Function - check lower letter and number
+	int Cll(string ID) {
+		const string check = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+		for (char temp : ID) {
+			if (check.find(temp) == string::npos) {
+				return 1;
+			}
+			else {
+				continue;
+			}
 		}
+		return 0;
 	}
-	catch(...){
-        cout << "Error: Your Seat is invalid. Please try again." << endl;
-        cout << "Error: Your Seat must be \"1-13\"+\"A-F\"" << endl;
-        return 1;
-    }
-    return 0;
-}
 
+	//Function - check letters
+	int Cl(string name) {
+		const string az = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+		for (char temp : name) {
+			if (az.find(temp) == string::npos) {
+				return 1;
+			}
+			else {
+				continue;
+			}
+		}
+		return 0;
+	}
+
+	//Data validity check for name
+	int CheckName(string name,bool out) {
+		//Data validity check for name
+		try {
+			//check name must be letters
+			
+			if (Cl(name) == 1) {
+				throw invalid_argument("Error 203: Invalid");
+			}
+		}
+		//Catch expection
+		catch (...) {
+			if(out == true){
+				cout << "Error: Your name is invalid. Please try again." << endl;
+				cout << "name must not have number." << endl;
+			}
+			return 1;
+		}
+		return 0;
+	}
+
+	//Data validity check for ID
+	int CheckID(string ID,bool out) {
+		try {
+			//check ID must not have lower letter
+			if (Cll(ID) == 1) {
+				throw invalid_argument("Error 203: Invalid");
+			}
+		}
+		//Catch expection
+		catch (...) {
+			if(out == true){
+				cout << "Error: Your ID is invalid. Please try again." << endl;
+				cout << "Error: Your ID must be number and upper letter" << endl;
+			}
+			return 1;
+		}
+		return 0;
+	}
+
+	//Check Seat
+	int CheckSeat(string seat,bool out) {
+		try {
+			//check Seat must not exclude the seat range
+			string parameter = "ABCDEF";
+			int buff2 = stoi(seat.substr(0, seat.size() - 1));
+			if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
+				throw invalid_argument("Error 203: Invalid");
+			}
+		}
+		//Catch expection
+		catch (...) {
+			if(out == true){
+				cout << "Error: Your Seat is invalid. Please try again." << endl;
+				cout << "Error: Your Seat must be \"1-13\"+\"A-F\"" << endl;
+			}
+			return 1;
+		}
+		return 0;
+	}
+};
 //Function1 - Add an assignment
 void F1() {
 	//class quote
 	DataProcessing DP;
+	CheckInfo CI;
+
 	//declare variables
 	string name, ID, seat, str, data, parameter = "ABCDEF", back;
 	//Main loop
@@ -269,22 +275,22 @@ void F1() {
 
 
 		//Data validity check for name
-		if (CheckName(name) == 1 ){
-            goto fail;
-        }
+		if (CI.CheckName(name,true) == 1) {
+			goto fail;
+		}
 		//Data validity check for ID
-		if (CheckID(ID) == 1 ){
-            goto fail;
-        }
-		
+		if (CI.CheckID(ID,true) == 1) {
+			goto fail;
+		}
+
 		//Data validity check for seat
 		try {
 			int buff2 = stoi(seat.substr(0, seat.size() - 1));
 			if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
 				throw invalid_argument("Error 203: Invalid");
 			}
-			//Catch expection
 		}
+		//Catch expection
 		catch (...) {
 			cout << "Error: Your seat is invalid. Please try again." << endl;
 			cout << "The Format of the seat location should be\"RowColumn\" and without space." << endl;
@@ -309,16 +315,14 @@ void F1() {
 				cout << "Error: You have booked for name: " << name << "." << endl;
 				cout << "Error: Please try again." << endl;
 				goto fail;
-
-				//Check if user's ID have booked
 			}
+			//Check if user's ID have booked
 			else if (buffer2[1] == ID) {
 				cout << "Error: You have booked for ID:" << ID << "." << endl;
 				cout << "Error: Please try again." << endl;
 				goto fail;
-
-				//Check if sear have booked
 			}
+			//Check if seat have booked
 			else if (buffer2[2] == seat) {
 				cout << "Error: The seat: " << seat << " has been obtained." << endl;
 				cout << "Error: Please choose another one." << endl;
@@ -327,17 +331,18 @@ void F1() {
 		}
 
 		//Bypass the for loop if there is not data file to prevent error
-		file_not_exist:;
+	file_not_exist:;
 
 		//Store data and indicate book success
 		DP.Store(name + "/" + ID + "/" + seat, "Client_data.txt");
 		cout << endl << "You have booked successfully for seat " << seat << "." << endl;
+		//Pause and Clear screen
 		system("pause");
 		system("cls");
 		break;
 
 		//Bypass Store function if found data match in data file
-		fail:;
+	fail:;
 	} while (true);
 }
 
@@ -345,30 +350,33 @@ void F1() {
 void F2() {
 	//class quote
 	DataProcessing DP;
+	CheckInfo CI;
+
 	//declare variables
 	string name, ID;
-	
+
 	//Anchor point
 	reenter2:;
 
 	//Input name,ID
 	cout << "\nInput your name(e.g.\"Chan Tai Man\"): ";
-	getline(cin,name);
+	getline(cin, name);
 	cout << "\nAttention: Please use upper letter to input passort ID." << endl;
 	cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
-	getline(cin,ID);
+	getline(cin, ID);
 
 	//Data validity check for name
-	if (CheckName(name) == 1 ){
+	if (CI.CheckName(name,true) == 1) {
 		goto reenter2;
 	}
 	//Data validity check for ID
-	if (CheckID(ID) == 1 ){
+	if (CI.CheckID(ID,true) == 1) {
 		goto reenter2;
 	}
 
 	//Delete data if match
 	DP.Delete(name, ID);
+	//Pause and Clear screen
 	system("pause");
 	system("cls");
 }
@@ -377,21 +385,24 @@ void F2() {
 void F3() {
 	//class quote
 	DataProcessing DP;
+	CheckInfo CI;
+
 	//declare variables
 	string input;
-	vector<string> data = {},suces = {},fail = {};
+	vector<string> data = {}, suces = {}, fail = {};
 
 	//Anchor point
 	reenter1:;
 
-	
+
 	//Input name, ID and seat in the specified format
-	cout << "Attention: 1. Please use upper letter to input passort ID."<<endl;
+	cout << "Attention: 1. Please use upper letter to input passort ID." << endl;
 	cout << setw(11) << " " << "2. The format of seat location should be\"RowColumn\" and without space." << endl;
 	cout << setw(11) << " " << "3. The row should be between 1-13." << endl;
 	cout << setw(11) << " " << "4. The column shoulb be between A-F." << endl;
 	cout << "\nPlease input in \"Name/PassportID/Seat\" or \"0\" to end input:" << endl;
-	
+
+	//input name, ID and seat
 	int i = 1;
 	cout << i << ": ";
 	getline(cin, input);
@@ -409,20 +420,20 @@ void F3() {
 		bool sucess = true;
 		string* buffer1 = DP.Split(buffer);
 
+		
 		//Data validity check for Name
-		if (CheckName(buffer1[0]) == 1 ){
-            goto reenter1;
+		if (CI.CheckName(buffer1[0],false) == 1 ){
+            sucess = false;
         }
-
+		
 		//Validation check for ID
-		if (CheckID(buffer1[1])==1){
-            goto reenter1;
+		if (CI.CheckID(buffer1[1],false)==1){
+            sucess = false;
 		}
 
 		//Validation check for Seat
-		if (CheckSeat(buffer1[2]) == 1) {
+		if (CI.CheckSeat(buffer1[2],false) == 1) {
 			sucess = false;
-			goto reenter1;
 		}
 
 		//Check if any data exist in data file
@@ -460,18 +471,17 @@ void F3() {
 			cout << buffer3 << endl;
 		}
 		cout << endl;
-		system("pause");
 	}
 
 	//Display fail case list
-	while(!fail.empty()){
+	if (!fail.empty()) {
 		cout << "Unsuccessful requests:" << endl;
 		for (auto buffer4 : fail) {
 			cout << buffer4 << endl;
 		}
 		cout << endl;
 	}
-
+	//Pause and Clear screen
 	system("pause");
 	system("cls");
 }
@@ -480,6 +490,7 @@ void F3() {
 void F4() {
 	//class quote
 	DataProcessing DP;
+
 	//declare variables
 	vector<string> AZ = { "A","B","C","D","E","F" };
 	string buff;
@@ -507,6 +518,7 @@ void F4() {
 		}
 		cout << endl;
 	}
+	//Pause and Clear screen
 	system("pause");
 	system("cls");
 }
@@ -515,19 +527,26 @@ void F4() {
 void F5_1() {
 	//class quote
 	DataProcessing DP;
+	CheckInfo CI;
+
 	//declare variables
 	string ID;
 	int buff2 = 0;
 
 	//Input ID
-	cout << "Attention: Please use upper letter to input passort ID." << endl;
+	cout << "You may enter the passport ID or \"q\" to quit." << endl;
+	cout << "Attention: Please use upper letter to input passort ID" << endl;
 	cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
-	getline(cin,ID);
+	getline(cin, ID);
 
-	if(ID == "q"){
+	//check if user input "q"
+	if (ID == "q") {
+		//Clear screen and exit
 		system("cls");
 		return;
-	}else if(CheckID(ID) == 1){
+	}
+	//Validation check for ID
+	else if (CI.CheckID(ID,true) == 1) {
 		goto end_loop;
 	}
 
@@ -562,6 +581,7 @@ void F5_1() {
 	end_loop:;
 	cout << endl;
 
+	//Pause and Clear screen
 	system("pause");
 	system("cls");
 }
@@ -570,15 +590,16 @@ void F5_1() {
 void F5_2() {
 	//class quote
 	DataProcessing DP;
+
 	//declare variables
 	string Class, buff2;
-	vector<string> AZ = {"A","B","C","D","E","F"};
+	vector<string> AZ = { "A","B","C","D","E","F" };
 	int class1, class2;
 
-	while(true){
+	while (true) {
 		//Input class
 		cout << "You may choose from First, Business or Economy or \"q\" to quit.\nInput Class: ";
-		getline(cin,Class);
+		getline(cin, Class);
 
 		//Check which class match and set parameter
 		if (Class == "First" || Class == "first") {
@@ -596,7 +617,8 @@ void F5_2() {
 			class2 = 14;
 			break;
 		}
-		else if (Class == "q"){
+		else if (Class == "q") {
+			//Clear screen and exit
 			system("cls");
 			return;
 		}
@@ -613,7 +635,7 @@ void F5_2() {
 			bool occupied = false;
 			string out = "";
 			out = to_string(l) + o + ": ";
-			
+
 			//get data
 			for (auto buff1 : DP.Readfile()) {
 				buff2 = to_string(l) + o;
@@ -632,17 +654,21 @@ void F5_2() {
 		}cout << endl;
 	}
 	cout << endl;
+	//Pause and Clear screen
 	system("pause");
 	system("cls");
 }
 
 //Function5 - Show details Main Menu
 void F5() {
+	//Clear screen
 	system("cls");
+	//declare variables
 	string sub_prog_choice;
 	char temp1;
 
-	do {		//Main Menu
+	//Main Menu
+	do {
 		cout << "\n\n";
 		cout << "*** Details ***" << endl;
 		cout << "[1] Passenger" << endl;
@@ -650,14 +676,15 @@ void F5() {
 		cout << "[3] Back" << endl;
 		cout << "*****************" << endl;
 		cout << "Option (1-3): ";
-		getline(cin,sub_prog_choice);
+		getline(cin, sub_prog_choice);
 		cout << "\n\n";
-		
+
 		//String to int
-		try{
+		try {
 			temp1 = stoi(sub_prog_choice);
-		//Catch expection
-		}catch(...){}
+			//Catch expection
+		}
+		catch (...) {}
 
 		//Choose Function
 		switch (temp1) {
@@ -667,9 +694,11 @@ void F5() {
 		default:
 			//Indicate error
 			cout << "Error: No such function " << sub_prog_choice << endl;
+			//Continue and Clear screen
 			continue; system("cls");
 		}
 	} while (temp1 != 3);
+	//Clear screen
 	system("cls");
 }
 
@@ -691,15 +720,16 @@ int main()
 		cout << "[6] Exit" << endl;
 		cout << "*****************" << endl;
 		cout << "Option (1-6): ";
-		getline(cin,prog_choice);
+		getline(cin, prog_choice);
 		cout << "\n";
 
 		//String to int
-		try{
+		try {
 			temp = stoi(prog_choice);
-		//Catch expection
-		}catch(...){}
-		
+			//Catch expection
+		}
+		catch (...) {}
+
 		//Choose Function
 		switch (temp) {
 		case 1: F1(); break;

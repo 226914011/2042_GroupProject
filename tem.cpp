@@ -11,19 +11,16 @@
 //Include std
 using namespace std;
 
-int cll (string ID){
-    const string az="abcdefghijklmnopqrstuvwxyz";
-    for (char temp : ID){
-        if(az.find(temp)!=string::npos){
-            return 1;
-        }else{
-            continue;
-        }
-    }
-    return 0;
+void matching(string seatinput,char& seat,int& row)
+{
+    seat = seatinput.back();
+    row = stoi(seatinput.substr(0, seatinput.size() - 1));
 }
 
 //Solution
 int main(){
-    cout << cll("ASD123A");
+    char seat;
+    int row;
+    matching("10A",seat,row);
+    cout << seat << endl << row;
 }
