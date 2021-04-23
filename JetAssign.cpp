@@ -191,18 +191,18 @@ public:
 	}
 
 	//Data validity check for name
-	int CheckName(string name,bool out) {
+	int CheckName(string name, bool out) {
 		//Data validity check for name
 		try {
 			//check name must be letters
-			
+
 			if (Cl(name) == 1) {
 				throw invalid_argument("Error 203: Invalid");
 			}
 		}
 		//Catch expection
 		catch (...) {
-			if(out == true){
+			if (out == true) {
 				cout << "Error: Your name is invalid. Please try again." << endl;
 				cout << "name must not have number." << endl;
 			}
@@ -212,7 +212,7 @@ public:
 	}
 
 	//Data validity check for ID
-	int CheckID(string ID,bool out) {
+	int CheckID(string ID, bool out) {
 		try {
 			//check ID must not have lower letter
 			if (Cll(ID) == 1) {
@@ -221,7 +221,7 @@ public:
 		}
 		//Catch expection
 		catch (...) {
-			if(out == true){
+			if (out == true) {
 				cout << "Error: Your ID is invalid. Please try again." << endl;
 				cout << "Error: Your ID must be number and upper letter" << endl;
 			}
@@ -231,7 +231,7 @@ public:
 	}
 
 	//Check Seat
-	int CheckSeat(string seat,bool out) {
+	int CheckSeat(string seat, bool out) {
 		try {
 			//check Seat must not exclude the seat range
 			string parameter = "ABCDEF";
@@ -242,7 +242,7 @@ public:
 		}
 		//Catch expection
 		catch (...) {
-			if(out == true){
+			if (out == true) {
 				cout << "Error: Your Seat is invalid. Please try again." << endl;
 				cout << "Error: Your Seat must be \"1-13\"+\"A-F\"" << endl;
 			}
@@ -262,7 +262,7 @@ void F1() {
 	//Main loop
 	do {
 		//Input name,ID and seat
-		cout << "Input your name(e.g.\"Chan Tai Man\"): ";
+		cout << "\nInput your name(e.g.\"Chan Tai Man\"): ";
 		getline(cin, name);
 		cout << "\nAttention: Please use upper letter to input passort ID." << endl;
 		cout << "Input your passport ID(e.g.\"HK12345678A\"): ";
@@ -270,32 +270,26 @@ void F1() {
 		cout << "\nAttention: The format of seat location should be\"RowColumn\" and without space." << endl;
 		cout << setw(11) << " " << "The row should be between 1-13." << endl;
 		cout << setw(11) << " " << "The column shoulb be between A-F." << endl;
-		cout << "Input your desired seat location(e.g.\"10D\"): ";
+		cout << endl;
+		cout << setw(11) << "Row" << setw(13) << "Class\n";
+		cout << setw(13) << "1 to 2" << setw(11) << "First\n";
+		cout << setw(13) << "3 to 7" << setw(13) << "Business\n";
+		cout << setw(14) << "8 to 13" << setw(11) << "Economy\n";
+		cout << "\nInput your desired seat location(e.g.\"10D\"): ";
 		getline(cin, seat);
 
 
 		//Data validity check for name
-		if (CI.CheckName(name,true) == 1) {
+		if (CI.CheckName(name, true) == 1) {
 			goto fail;
 		}
 		//Data validity check for ID
-		if (CI.CheckID(ID,true) == 1) {
+		if (CI.CheckID(ID, true) == 1) {
 			goto fail;
 		}
 
 		//Data validity check for seat
-		try {
-			int buff2 = stoi(seat.substr(0, seat.size() - 1));
-			if ((buff2 < 1) || (buff2 > 13) || parameter.find(seat.substr(seat.size() - 1, seat.size())) == string::npos) {
-				throw invalid_argument("Error 203: Invalid");
-			}
-		}
-		//Catch expection
-		catch (...) {
-			cout << "Error: Your seat is invalid. Please try again." << endl;
-			cout << "The Format of the seat location should be\"RowColumn\" and without space." << endl;
-			cout << "The row should be between 1-13." << endl;
-			cout << "The column shoulb be between A-F." << endl;
+		if (CI.CheckSeat(seat, true) == 1) {
 			goto fail;
 		}
 
@@ -356,7 +350,7 @@ void F2() {
 	string name, ID;
 
 	//Anchor point
-	reenter2:;
+	reenter:;
 
 	//Input name,ID
 	cout << "\nInput your name(e.g.\"Chan Tai Man\"): ";
@@ -366,12 +360,12 @@ void F2() {
 	getline(cin, ID);
 
 	//Data validity check for name
-	if (CI.CheckName(name,true) == 1) {
-		goto reenter2;
+	if (CI.CheckName(name, true) == 1) {
+		goto reenter;
 	}
 	//Data validity check for ID
-	if (CI.CheckID(ID,true) == 1) {
-		goto reenter2;
+	if (CI.CheckID(ID, true) == 1) {
+		goto reenter;
 	}
 
 	//Delete data if match
@@ -391,15 +385,18 @@ void F3() {
 	string input;
 	vector<string> data = {}, suces = {}, fail = {};
 
-	//Anchor point
-	reenter1:;
-
 
 	//Input name, ID and seat in the specified format
 	cout << "Attention: 1. Please use upper letter to input passort ID." << endl;
 	cout << setw(11) << " " << "2. The format of seat location should be\"RowColumn\" and without space." << endl;
 	cout << setw(11) << " " << "3. The row should be between 1-13." << endl;
 	cout << setw(11) << " " << "4. The column shoulb be between A-F." << endl;
+	cout << endl;
+	cout << setw(16) << "Row" << setw(13) << "Class\n";
+	cout << setw(18) << "1 to 2" << setw(11) << "First\n";
+	cout << setw(18) << "3 to 7" << setw(13) << "Business\n";
+	cout << setw(19) << "8 to 13" << setw(11) << "Economy\n";
+
 	cout << "\nPlease input in \"Name/PassportID/Seat\" or \"0\" to end input:" << endl;
 
 	//input name, ID and seat
@@ -420,19 +417,19 @@ void F3() {
 		bool sucess = true;
 		string* buffer1 = DP.Split(buffer);
 
-		
+
 		//Data validity check for Name
-		if (CI.CheckName(buffer1[0],false) == 1 ){
-            sucess = false;
-        }
-		
+		if (CI.CheckName(buffer1[0], false) == 1) {
+			sucess = false;
+		}
+
 		//Validation check for ID
-		if (CI.CheckID(buffer1[1],false)==1){
-            sucess = false;
+		if (CI.CheckID(buffer1[1], false) == 1) {
+			sucess = false;
 		}
 
 		//Validation check for Seat
-		if (CI.CheckSeat(buffer1[2],false) == 1) {
+		if (CI.CheckSeat(buffer1[2], false) == 1) {
 			sucess = false;
 		}
 
@@ -451,7 +448,7 @@ void F3() {
 			}
 		}
 		//Bypass the for loop if there is not data file to prevent error
-		file_not_exist:;
+	file_not_exist:;
 
 		//Store success and fail cases
 		if (sucess) {
@@ -479,7 +476,7 @@ void F3() {
 		for (auto buffer4 : fail) {
 			cout << buffer4 << endl;
 		}
-		cout << endl;
+		cout << "\nPlease handle each of them individually\n\n";
 	}
 	//Pause and Clear screen
 	system("pause");
@@ -518,6 +515,8 @@ void F4() {
 		}
 		cout << endl;
 	}
+	cout << "\n* represents anempty seat available to be assigned.\n";
+	cout << "X represents seat is assigned.\n\n";
 	//Pause and Clear screen
 	system("pause");
 	system("cls");
@@ -533,6 +532,9 @@ void F5_1() {
 	string ID;
 	int buff2 = 0;
 
+	//Anchor point
+	reenter1:;
+
 	//Input ID
 	cout << "You may enter the passport ID or \"q\" to quit." << endl;
 	cout << "Attention: Please use upper letter to input passort ID" << endl;
@@ -546,8 +548,9 @@ void F5_1() {
 		return;
 	}
 	//Validation check for ID
-	else if (CI.CheckID(ID,true) == 1) {
-		goto end_loop;
+	else if (CI.CheckID(ID, true) == 1) {
+		cout << endl;
+		goto reenter1;
 	}
 
 	//Get data to check
@@ -624,7 +627,7 @@ void F5_2() {
 		}
 		else {
 			cout << "\nError: Invalid Class" << endl;
-			cout << "Class should be \"First\", \"Business\", or \"Economy\"!" << endl;
+			cout << "Class should be \"First\", \"Business\", or \"Economy\"!\n" << endl;
 		}
 	}
 
