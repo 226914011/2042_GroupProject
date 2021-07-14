@@ -325,7 +325,7 @@ void F1() {
 		}
 
 		//Bypass the for loop if there is not data file to prevent error
-	file_not_exist:;
+		file_not_exist:;
 
 		//Store data and indicate book success
 		DP.Store(name + "/" + ID + "/" + seat, "Client_data.txt");
@@ -448,7 +448,7 @@ void F3() {
 			}
 		}
 		//Bypass the for loop if there is not data file to prevent error
-	file_not_exist:;
+		file_not_exist:;
 
 		//Store success and fail cases
 		if (sucess) {
